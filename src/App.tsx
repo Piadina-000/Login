@@ -2,7 +2,21 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleEmail=(event: any)=>{
+    setEmail(event.target.value);
+  }
+
+  const handlePassword=(event: any)=>{
+    setPassword(event.target.value);
+  }
+
+  const handleClick=()=>{
+    console.log("Email: ", email);
+    console.log("Password: ", password);
+  }
 
   return (
     <>
@@ -13,12 +27,26 @@ function App() {
           </div>
           <div className='LoginBody'>
             <div className='inputs'>
-              <input className="email" type="text" placeholder='Inserisci nome utente o email'/>
-              <input className="password" type="password" placeholder='Inserisci la password'/>
+              <input 
+                onChange={(e: any) => handleEmail(e)} 
+                className="email" 
+                type="text" 
+                placeholder='Inserisci nome utente o email'
+              />
+              <input 
+                onChange={(e: any) => handlePassword(e)} 
+                className="password" 
+                type="password" 
+                placeholder='Inserisci la password'
+              />
             </div>
             <br />
             <div>
-              <button className='submitButton'>Login</button>
+              <button 
+                onClick={handleClick}
+                className='submitButton'>
+                  Login
+              </button>
             </div>
           </div>
         </div>
