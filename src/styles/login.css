@@ -151,4 +151,16 @@ body{
   justify-content: center;
 }
 
+/* piccolo messaggio di errore per email e password */
+.field-error{
+  color: #7b1f1f;
+  background: rgba(255,230,230,0.9);
+  border: 1px solid #f2c6c6;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  max-width: 320px;
+}
+
 

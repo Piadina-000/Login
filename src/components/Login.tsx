@@ -3,26 +3,54 @@ import '../styles/login.css'
 import { useNavigate } from 'react-router';
 import type { PostData } from '../types';
 
+// Componente che gestisce il login.
+// - Stato per email/password
+// - Validazione
+// - Chiamata fetch
 export const Login = () => {
+  // Dati del form (email + password). Valori di esempio.
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
+  // qui salvo la risposta del server (per debug)
   const [response, setResponse] = useState<any>(null);
+  // flag per il caricamento
   const [loading, setLoading] = useState(false);
+  // messaggi di errore mostrati a schermo
   const [error, setError] = useState<string | null>(null)
 
+  // boolean per indicare se l'utente è autenticato
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  
+
+
+  // funzione di validazione per l'email
+  const validateEmail = (email: string): boolean => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  // controllo minimo sulla password (>=8 caratteri)
+  const isValidPassword = data.password.length >= 8;
+
+  // se isLoggedIn diventa true, si sposta su /admin
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/admin');
     }
   }, [isLoggedIn, navigate]);
   
+  // gestione dell'invio del form (POST)
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
+      setError(null);
+
+      // Se i dati non sono validi non inviare la richiesta
+      if (!validateEmail(data.email) || !isValidPassword) {
+        setError('Email o password non validi!');
+        return;
+      }
+
       setLoading(true);
-      setError(null)
-  
+
       try {
           const res = await fetch("https://shiftcaller.it/api/mockup-login", {
               method: "POST",
@@ -95,25 +123,33 @@ export const Login = () => {
             <div className='inputs'>
               <input 
                 value={data.email}
-                onChange={(e: any) => setData({...data, email: e.target.value})} 
+                onChange={(e: any) => setData({...data, email: e.target.value})}
+                data-valid={validateEmail(data.email) ? "true" : "false"}
                 className="email" 
                 type="text" 
                 placeholder='Inserisci nome utente o email'
               />
+              {!validateEmail(data.email) && (
+                <div className="field-error">Email non valida</div>
+              )}
               <input 
                 value={data.password}
                 onChange={(e: any) => setData({...data, password: e.target.value})} 
+                data-valid={isValidPassword ? "true" : "false"}
                 className="password" 
                 type="password" 
                 placeholder='Inserisci la password'
               />
+              {!isValidPassword && (
+                <div className="field-error">La password deve avere almeno 8 caratteri</div>
+              )}
             </div>
             <br />
             <div>
               <button 
                 type="submit"
                 className='submitButton'
-                disabled={loading}>
+                disabled={loading || !isValidPassword || !validateEmail(data.email)}>
                   {loading ? "Invio..." : "Login"}
                   {isLoggedIn ? 'Logout' : ''}
               </button>
@@ -124,6 +160,7 @@ export const Login = () => {
         </div>
       </div>
     </form>
+    {response && <pre className='response-debug'>{JSON.stringify(response, null, 2)}</pre>}
     </>
     
   )

@@ -1,5 +1,6 @@
 import '../styles/amministrazione.css'
 
+// Pagina di amministrazione
 export const Amministrazione = () => {
     return (
         <div className='amministrazione'>
