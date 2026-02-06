@@ -8,7 +8,9 @@ export const Amministrazione = () => {
                 <h1>Amministrazione</h1>
             </div>
             <div className='body'>
-                
+                <div className='body__container'>
+                    <p>Non c'è ancora niente qua dentro :,)</p>
+                </div>
             </div>
         </div>
     )

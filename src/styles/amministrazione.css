@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   background-color: #f3f6fb; 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --card: #a7a4a4;
+  --radius: 10px;
 }
 
 .amministrazione {
@@ -94,12 +94,24 @@
 
 
 .body__container {
-  width: min(1100px, 96%);
-  max-width: 1100px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: #2f3e47;
+  transform: translate(-50%, -50%);
+  width: min(720px, 90%);
+  max-width: 600px;
+  padding: 48px;
+  border-radius: calc(var(--radius) + 2px);
 }
 
-@media (max-width: 600px) {
-  .amministrazione__box { padding: 20px; }
-  .amministrazione__header { padding: 16px; margin: 0 -20px 12px -20px; }
-  .amministrazione__header h1 { font-size: 1.25rem; }
+.body__container p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
 }
+
