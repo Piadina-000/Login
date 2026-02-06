@@ -1,7 +1,22 @@
 # Login
 
-  Questo repository contiene un'applicazione di login (React + Vite).
+Applicazione di esempio per il login sviluppata con React + TypeScript + Vite.
 
-  README provvisorio: per ora il repository contiene il codice sorgente e gli stili dell'applicazione.
+## Caratteristiche
+- Interfaccia di login semplice
+- Struttura in `src/components`
+- Stili in `src/styles`
 
-  Aggiornerò la documentazione in seguito.
+## Tech stack
+- React 
+- TypeScript
+- Vite
+
+## Struttura del progetto (principale)
+- `src/` — codice sorgente
+  - `components/` — componenti React 
+  - `styles/` — fogli di stile CSS
+
+## Componenti principali
+- `Login.tsx` — form di autenticazione
+- `Amministrazione.tsx` — area dopo il login

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/login.css'
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import type { PostData } from '../types';
 
 // Componente che gestisce il login.
