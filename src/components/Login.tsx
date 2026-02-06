@@ -12,8 +12,6 @@ export const Login = () => {
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
   // qui salvo la risposta del server (per debug)
   const [response, setResponse] = useState<any>(null);
-  // flag per il caricamento
-  const [loading, setLoading] = useState(false);
   // messaggi di errore mostrati a schermo
   const [error, setError] = useState<string | null>(null)
 
@@ -31,7 +29,16 @@ export const Login = () => {
   // controllo minimo sulla password (>=8 caratteri)
   const isValidPassword = data.password.length >= 8;
 
-  // se isLoggedIn diventa true, si sposta su /admin
+/*
+  const MyComponent = () => {
+  // Inizializzazione "lazy" dallo storage (con parsing JSON)
+    const [name, setName] = useState<string>(() => {
+    const saved = localStorage.getItem('name');
+    return saved ? JSON.parse(saved) : '';
+  });
+*/
+
+  // se isLoggedIn diventa true, si sposta su /admin 
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/admin');
@@ -48,8 +55,6 @@ export const Login = () => {
         setError('Email o password non validi!');
         return;
       }
-
-      setLoading(true);
 
       try {
           const res = await fetch("https://shiftcaller.it/api/mockup-login", {
@@ -89,10 +94,15 @@ export const Login = () => {
         console.error('Errore fetch:', err);
         setError(err?.message ?? String(err));
       } finally {
-          setLoading(false);
       }
   };
     
+  // funzione per salvare la risposta del server nel localStorage
+  const handleSave = () => {
+    localStorage.setItem('app_config', JSON.stringify(response));
+    //alert('Costante salvata!');
+  };
+  
 /*
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -148,10 +158,10 @@ export const Login = () => {
             <div>
               <button 
                 type="submit"
+                onClick={handleSave}
                 className='submitButton'
-                disabled={loading || !isValidPassword || !validateEmail(data.email)}>
-                  {loading ? "Invio..." : "Login"}
-                  {isLoggedIn ? 'Logout' : ''}
+                disabled={!isValidPassword || !validateEmail(data.email)}>
+                  {isLoggedIn ? 'Logout' : 'Login'}
               </button>
               <br />
               {error && <div className='error-message'>{error}</div>}
