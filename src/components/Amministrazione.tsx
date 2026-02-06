@@ -4,8 +4,12 @@ import '../styles/amministrazione.css'
 export const Amministrazione = () => {
     return (
         <div className='amministrazione'>
-            <h1>Benvenuto nell'area di amministrazione</h1>
-            <p>Qui puoi gestire le impostazioni e le funzionalità riservate agli amministratori.</p>
+            <div className='header'>
+                <h1>Amministrazione</h1>
+            </div>
+            <div className='body'>
+                
+            </div>
         </div>
     )
 }
