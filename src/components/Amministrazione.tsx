@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import '../styles/amministrazione.css'
 
 export const Amministrazione = () => {

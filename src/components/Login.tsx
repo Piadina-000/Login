@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles/login.css'
+import { useNavigate } from 'react-router';
 
 interface PostData {
       email: string;
@@ -11,6 +12,15 @@ export const Login = () => {
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null)
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/admin');
+    }
+  }, [isLoggedIn, navigate]);
   
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -48,6 +58,7 @@ export const Login = () => {
         } else {
           setResponse(result);
           setError(null);
+          setIsLoggedIn(true);
         }
       } catch (err: any) {
         // network / fetch error
@@ -108,6 +119,7 @@ export const Login = () => {
                 className='submitButton'
                 disabled={loading}>
                   {loading ? "Invio..." : "Login"}
+                  {isLoggedIn ? 'Logout' : ''}
               </button>
               <br />
               {error && <div className='error-message'>{error}</div>}
@@ -117,6 +129,7 @@ export const Login = () => {
       </div>
     </form>
     </>
+    
   )
 }
 
