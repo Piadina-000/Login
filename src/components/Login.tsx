@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../App.css'
+import '../styles/login.css'
 
 interface PostData {
       email: string;
@@ -33,23 +33,23 @@ export const Login = () => {
           result = await res.text();
         }
 
-          if (res.status === 401) {
-            // mostro il messaggio per credenziali errate
-            setError('CREDENZIALI ERRATE!');
-            setResponse(null);
-          } else if (!res.ok) {
-            // mostrare l'errore server all'utente, se presente, altrimenti mostra solo un messaggio generico
-            const serverMessage = (result && typeof result === 'object' && (result.message || result.error))
-              ? (result.message || result.error)
-              : (typeof result === 'string' ? result : `Errore server ${res.status}`);
-            console.error('Errore server', res.status, result);
-            setError(String(serverMessage));
-            setResponse(result);
-          } else {
-            setResponse(result);
-            setError(null);
-          }
-        } catch (err: any) {
+        if (res.status === 401) {
+          // mostro il messaggio per credenziali errate
+          setError('CREDENZIALI ERRATE!');
+          setResponse(null);
+        } else if (!res.ok) {
+          // mostrare l'errore server all'utente, se presente, altrimenti mostra solo un messaggio generico
+          const serverMessage = (result && typeof result === 'object' && (result.message || result.error))
+            ? (result.message || result.error)
+            : (typeof result === 'string' ? result : `Errore server ${res.status}`);
+          console.error('Errore server', res.status, result);
+          setError(String(serverMessage));
+          setResponse(result);
+        } else {
+          setResponse(result);
+          setError(null);
+        }
+      } catch (err: any) {
         // network / fetch error
         console.error('Errore fetch:', err);
         setError(err?.message ?? String(err));
