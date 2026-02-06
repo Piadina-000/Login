@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/login.css'
 import { useNavigate } from 'react-router';
-
-interface PostData {
-      email: string;
-      password: string;
-  }
+import type { PostData } from '../types';
 
 export const Login = () => {
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
