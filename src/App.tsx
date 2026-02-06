@@ -10,10 +10,12 @@ function App() {
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
   const [response, setResponse] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null)
   
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setLoading(true);
+      setError(null)
   
       try {
           const res = await fetch("https://shiftcaller.it/api/mockup-login", {
@@ -23,10 +25,34 @@ function App() {
               },
               body: JSON.stringify(data),
           });
-      const result = await res.json();
-      setResponse(result);
-      } catch (error) {
-          setResponse({ error: "Errore" });
+        const contentType = res.headers.get('content-type') || '';
+        let result: any = null;
+        if (contentType.includes('application/json')) {
+          result = await res.json();
+        } else {
+          result = await res.text();
+        }
+
+          if (res.status === 401) {
+            // mostro il messaggio per credenziali errate
+            setError('CREDENZIALI ERRATE!');
+            setResponse(null);
+          } else if (!res.ok) {
+            // mostrare l'errore server all'utente, se presente, altrimenti mostra solo un messaggio generico
+            const serverMessage = (result && typeof result === 'object' && (result.message || result.error))
+              ? (result.message || result.error)
+              : (typeof result === 'string' ? result : `Errore server ${res.status}`);
+            console.error('Errore server', res.status, result);
+            setError(String(serverMessage));
+            setResponse(result);
+          } else {
+            setResponse(result);
+            setError(null);
+          }
+        } catch (err: any) {
+        // network / fetch error
+        console.error('Errore fetch:', err);
+        setError(err?.message ?? String(err));
       } finally {
           setLoading(false);
       }
@@ -83,6 +109,8 @@ function App() {
                 disabled={loading}>
                   {loading ? "Invio..." : "Login"}
               </button>
+              <br />
+              {error && <div className='error-message'>{error}</div>}
             </div>
           </div>
         </div>
