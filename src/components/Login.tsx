@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import '../styles/login.css'
 import { useNavigate } from 'react-router-dom';
 import type { PostData } from '../types';
 
 // Componente che gestisce il login.
 // - Stato per email/password
+// - Salvataggio su local storage di response
 // - Validazione
 // - Chiamata fetch
 export const Login = () => {
   // Dati del form (email + password). Valori di esempio.
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
-  // qui salvo la risposta del server (per debug)
-  const [response, setResponse] = useState<any>(null);
+
+  // salvo la risposta del server
+  const [response, setResponse] = useState<any>(() => {
+    const saved = localStorage.getItem('response');
+    return saved ? JSON.parse(saved) : null;
+  });
+
   // messaggi di errore mostrati a schermo
   const [error, setError] = useState<string | null>(null)
 
   // boolean per indicare se l'utente è autenticato
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!(localStorage.getItem('response')));
   const navigate = useNavigate();
 
 
@@ -29,14 +35,6 @@ export const Login = () => {
   // controllo minimo sulla password (>=8 caratteri)
   const isValidPassword = data.password.length >= 8;
 
-/*
-  const MyComponent = () => {
-  // Inizializzazione "lazy" dallo storage (con parsing JSON)
-    const [name, setName] = useState<string>(() => {
-    const saved = localStorage.getItem('name');
-    return saved ? JSON.parse(saved) : '';
-  });
-*/
 
   // se isLoggedIn diventa true, si sposta su /admin 
   useEffect(() => {
@@ -44,7 +42,21 @@ export const Login = () => {
       navigate('/admin');
     }
   }, [isLoggedIn, navigate]);
+
+  // passa il response al localStorage
+  useEffect(() => {
+    if (response) {
+      try {
+        localStorage.setItem('response', JSON.stringify(response));
+      } catch (e) {
+        console.error('Impossibile salvare su localStorage', e);
+      }
+    } else {
+      localStorage.removeItem('response');
+    }
+  }, [response]);
   
+
   // gestione dell'invio del form (POST)
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -96,30 +108,6 @@ export const Login = () => {
       } finally {
       }
   };
-    
-  // funzione per salvare la risposta del server nel localStorage
-  const handleSave = () => {
-    localStorage.setItem('app_config', JSON.stringify(response));
-    //alert('Costante salvata!');
-  };
-  
-/*
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
-  const handleEmail=(event: any)=>{
-    setEmail(event.target.value);
-  }
-
-  const handlePassword=(event: any)=>{
-    setPassword(event.target.value);
-  }
-
-  const handleClick=()=>{
-    console.log("Email: ", email);
-    console.log("Password: ", password);
-  }
-  */
 
   return (
     <>
@@ -131,7 +119,7 @@ export const Login = () => {
           </div>
           <div className='LoginBody'>
             <div className='inputs'>
-              <input 
+              <input
                 value={data.email}
                 onChange={(e: any) => setData({...data, email: e.target.value})}
                 data-valid={validateEmail(data.email) ? "true" : "false"}
@@ -156,13 +144,13 @@ export const Login = () => {
             </div>
             <br />
             <div>
-              <button 
-                type="submit"
-                onClick={handleSave}
-                className='submitButton'
-                disabled={!isValidPassword || !validateEmail(data.email)}>
-                  {isLoggedIn ? 'Logout' : 'Login'}
-              </button>
+              <button
+                  type="submit"
+                  className='submitButton'
+                  disabled={!isValidPassword || !validateEmail(data.email)}
+                >
+                  Login
+                </button>
               <br />
               {error && <div className='error-message'>{error}</div>}
             </div>
@@ -176,4 +164,5 @@ export const Login = () => {
   )
 }
 
+//per debug, mostra a schermo la risposta salvata su localStorage
 //{response && <pre>{JSON.stringify(response, null, 2)}</pre>}
