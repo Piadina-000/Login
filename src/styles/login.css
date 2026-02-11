@@ -39,7 +39,7 @@ body{
   box-shadow: #57595e 0px 2px 4px -3px;
   display: flex;
 
-  gap: 10%;
+  gap: 15%;
 
   
   align-items: center;
@@ -51,7 +51,7 @@ body{
 
 .LoginBody{
   height: 100%;
-  width: 45%;
+  width: 40%;
 
   padding: 0; 
   margin: 0;
@@ -217,7 +217,7 @@ body{
 .hoverImg{
   background: rgba(180, 180, 180, 0.336);
   backdrop-filter: blur(2px);
-  width: 50%;
+  width: 45%;
   height: 45%;
 
   border-radius: 20px;
