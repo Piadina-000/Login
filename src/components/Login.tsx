@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import '../styles/login.css'
+
 import { useNavigate } from 'react-router-dom';
 import type { PostData } from '../types';
 
@@ -64,7 +65,7 @@ export const Login = () => {
 
       // Se i dati non sono validi non inviare la richiesta
       if (!validateEmail(data.email) || !isValidPassword) {
-        setError('Email o password non validi!');
+        setError('Email or password not valid!');
         return;
       }
 
@@ -86,14 +87,14 @@ export const Login = () => {
 
         if (res.status === 401) {
           // mostro il messaggio per credenziali errate
-          setError('CREDENZIALI ERRATE!');
+          setError('CREDENTIALS ERROR!');
           setResponse(null);
         } else if (!res.ok) {
           // mostrare l'errore server all'utente, se presente, altrimenti mostra solo un messaggio generico
           const serverMessage = (result && typeof result === 'object' && (result.message || result.error))
             ? (result.message || result.error)
-            : (typeof result === 'string' ? result : `Errore server ${res.status}`);
-          console.error('Errore server', res.status, result);
+            : (typeof result === 'string' ? result : `SERVER ERROR ${res.status}`);
+          console.error('SERVER ERROR', res.status, result);
           setError(String(serverMessage));
           setResponse(result);
         } else {
@@ -103,7 +104,7 @@ export const Login = () => {
         }
       } catch (err: any) {
         // network / fetch error
-        console.error('Errore fetch:', err);
+        console.error('FETCH ERROR:', err);
         setError(err?.message ?? String(err));
       } finally {
       }
@@ -114,51 +115,58 @@ export const Login = () => {
     <form onSubmit={handleSubmit}>
       <div className='Login'>
         <div className='LoginBox'>
-          <div className='LoginHeader'>
-            <h1>Login</h1>
-          </div>
           <div className='LoginBody'>
-            <div className='inputs'>
-              <input
-                value={data.email}
-                onChange={(e: any) => setData({...data, email: e.target.value})}
-                data-valid={validateEmail(data.email) ? "true" : "false"}
-                className="email" 
-                type="text" 
-                placeholder='Inserisci nome utente o email'
-              />
-              {!validateEmail(data.email) && (
-                <div className="field-error">Email non valida</div>
-              )}
-              <input 
-                value={data.password}
-                onChange={(e: any) => setData({...data, password: e.target.value})} 
-                data-valid={isValidPassword ? "true" : "false"}
-                className="password" 
-                type="password" 
-                placeholder='Inserisci la password'
-              />
-              {!isValidPassword && (
-                <div className="field-error">La password deve avere almeno 8 caratteri</div>
-              )}
-            </div>
-            <br />
-            <div>
-              <button
-                  type="submit"
-                  className='submitButton'
-                  disabled={!isValidPassword || !validateEmail(data.email)}
-                >
-                  Login
-                </button>
+              <div className='TopHeading'>
+                <p>Name</p>
+                <input id="languageButton" type="button" value="🇬🇧" />
+              </div>
+              <div className='LoginHeader'>
+                <h1>Morning!</h1>
+                <p>To log in to your account, enter your email address and password.</p>
+              </div>
+              <div className='inputs'>
+                <input
+                  value={data.email}
+                  onChange={(e: any) => setData({...data, email: e.target.value})}
+                  data-valid={validateEmail(data.email) ? "true" : "false"}
+                  className="email" 
+                  type="text" 
+                  placeholder='Enter username or email'
+                />
+                {!validateEmail(data.email) && (
+                  <div className="field-error">Invalid email</div>
+                )}
+                <input 
+                  value={data.password}
+                  onChange={(e: any) => setData({...data, password: e.target.value})} 
+                  data-valid={isValidPassword ? "true" : "false"}
+                  className="password" 
+                  type="password" 
+                  placeholder='Enter password'
+                />
+                {!isValidPassword && (
+                  <div className="field-error">Password must be at least 8 characters</div>
+                )}
+              </div>
               <br />
-              {error && <div className='error-message'>{error}</div>}
-            </div>
+              <div>
+                <button
+                    type="submit"
+                    className='submitButton'
+                    disabled={!isValidPassword || !validateEmail(data.email)}
+                  >
+                    Login
+                </button>
+                <br />
+                {error && <div className='error-message'>{error}</div>}
+              </div>
+          </div>   
+          <div className='hoverImg'>
+            <h3>Something</h3>
           </div>
-        </div>
+        </div> 
       </div>
     </form>
-    {response && <pre className='response-debug'>{JSON.stringify(response, null, 2)}</pre>}
     </>
     
   )
