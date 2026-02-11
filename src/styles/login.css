@@ -1,7 +1,7 @@
 :root{
-  --bg: #e0fcec;
+  --bg: #c5f5d9;
   --card: #ffffff;
-  --accent: #8ce9b4;
+  --accent: #a0eccf;
   --muted: #64748b;
   --input-border: #f1f1f1;
   --radius: 35px;
@@ -9,7 +9,6 @@
 }
 
 /**{box-sizing: border-box}*/
-
 
 body{
   margin: 0;
@@ -23,14 +22,15 @@ body{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
- 
+  z-index: 1;
+
   width: min(1100px, 100%);
   padding: 24px;
 }
 
 .LoginBox{
   margin: 0 auto;
-  flex: 1 1 420px;
+  flex: 420px;
   max-width: 100%;
   height: 650px;
   background-color: var(--card);
@@ -40,13 +40,16 @@ body{
   display: flex;
 
   gap: 15%;
-
   
   align-items: center;
 
   background-image: url('../img/piante2.jpg');
   background-size: cover;
   background-position: center;
+}
+
+.LoginBox .LoginBody{
+  align-items: flex-start;
 }
 
 .LoginBody{
@@ -60,22 +63,27 @@ body{
 /* header */
 .TopHeading{
   display: flex;
-  
   align-items: center;
-  gap: 83%;
 }
 
 .TopHeading p{
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
+}
+
+#parteColorata{
+  color: rgb(72, 190, 72);
 }
 
 #languageButton{
   background: transparent;
   border: none;
   color: var(--text);
-  font-size: 1.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
   cursor: pointer;
+
+  margin-left: 82%;
 }
 
 .LoginHeader{
@@ -161,6 +169,8 @@ body{
   cursor: pointer;
   display: block;
   margin: 18px auto 0;
+
+  margin-bottom: 40px;
 }
 
 .submitButton:hover{
@@ -169,6 +179,13 @@ body{
 }
 .submitButton:active{
   transform:translateY(0)
+}
+
+#Rights{
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 10%;
 }
 
 
@@ -204,7 +221,7 @@ body{
 .field-error{
   color: #7b1f1f;
   background: rgba(255,230,230,0.9);
-  border: 1px solid #f2c6c6;
+  border: 1px solid rgb(242, 198, 198);
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -215,8 +232,8 @@ body{
 
 /* hover dell'immagine */
 .hoverImg{
-  background: rgba(180, 180, 180, 0.336);
-  backdrop-filter: blur(2px);
+  background: linear-gradient(60deg, rgba(131, 131, 131, 0.342) 0%, rgba(75, 75, 75, 0.363) 100%);
+  backdrop-filter: blur(2.4px);
   width: 45%;
   height: 45%;
 
@@ -226,7 +243,7 @@ body{
   justify-content: center;
   align-items: center;
 
-  color: var(--text);
+  color: rgb(255, 255, 255);
 }
 
 
@@ -236,3 +253,64 @@ body{
 }
 
 
+/* grafica sfondo */
+
+.quadrato1{
+  position: relative;
+  top: 120px;
+  left: 65px;
+  rotate: 65deg;
+  width: 250px;
+  height: 250px;
+  background: #dcf7ec;
+  border-radius: var(--radius);
+  z-index: 0;
+}
+
+.quadrato2{
+  position: relative;
+  top: -270px;
+  left: 700px;
+  rotate: 25deg;
+  width: 70px;
+  height: 70px;
+  background: #fdfdfd;
+  border-radius: 12px;
+  z-index: 0;
+}
+
+.quadrato3{
+  position: relative;
+  top: -10px;
+  left: 1300px;
+  rotate: 30deg;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.quadrato4{
+  position: relative;
+  top: 430px;
+  left: 1050px;
+  rotate: 20deg;
+  width: 250px;
+  height: 250px;
+  background: #e7faef;
+  border-radius: var(--radius);
+  z-index: 0;
+}
+
+.quadrato5{
+  position: relative;
+  top: 220px;
+  left: 70px;
+  rotate: 20deg;
+  width: 30px;
+  height: 30px;
+  background: #ffffff;
+  border-radius: 5px;
+  z-index: 0;
+}

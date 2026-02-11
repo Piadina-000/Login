@@ -112,13 +112,21 @@ export const Login = () => {
 
   return (
     <>
+    <div className='quadrato1'></div>
+    <div className='quadrato2'></div>
+    <div className='quadrato3'></div>
+    <div className='quadrato4'></div>
+    <div className='quadrato5'></div>
+    <div className='quadrato6'></div>
+
     <form onSubmit={handleSubmit}>
       <div className='Login'>
         <div className='LoginBox'>
           <div className='LoginBody'>
               <div className='TopHeading'>
-                <p>Name</p>
-                <input id="languageButton" type="button" value="🇬🇧" />
+                <p>Na</p>
+                <p id='parteColorata'>me</p>
+                <input id="languageButton" type="button" value="EN ▼" />
               </div>
               <div className='LoginHeader'>
                 <h1>Morning!</h1>
@@ -159,6 +167,9 @@ export const Login = () => {
                 </button>
                 <br />
                 {error && <div className='error-message'>{error}</div>}
+              </div>
+              <div>
+                <p id='Rights'>All rights reserved ...</p>
               </div>
           </div>   
           <div className='hoverImg'>
