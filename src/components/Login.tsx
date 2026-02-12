@@ -128,58 +128,55 @@ export const Login = () => {
       <div className='Login'>
         <div className='LoginBox'>
           <div className='LoginBody'>
-              <div className='TopHeading'>
-                <p>Na</p>
-                <p id='parteColorata'>me</p>
-                <input id="languageButton" type="button" value="EN ▼" />
-              </div>
-              <div className='LoginHeader'>
-                <h1>Morning!</h1>
-                <p>To log in to your account, enter your email address and password.</p>
-              </div>
-              <div className='inputs'>
-                <input
-                  value={data.email}
-                  onChange={(e: any) => setData({...data, email: e.target.value})}
-                  data-valid={validateEmail(data.email) ? "true" : "false"}
-                  className="email" 
-                  type="text" 
-                  placeholder='Enter username or email'
-                />
-                {!validateEmail(data.email) && (
-                  <div className="field-error">Invalid email</div>
-                )}
-                <input 
-                  value={data.password}
-                  onChange={(e: any) => setData({...data, password: e.target.value})} 
-                  data-valid={isValidPassword ? "true" : "false"}
-                  className="password" 
-                  type="password" 
-                  placeholder='Enter password'
-                />
-                {!isValidPassword && (
-                  <div className="field-error">Password must be at least 8 characters</div>
-                )}
-              </div>
+            <div className='TopHeading'>
+              <p>Na</p>
+              <p id='parteColorata'>me</p>
+              <input id="languageButton" type="button" value="EN ▼" />
+            </div>
+            <div className='LoginHeader'>
+              <h1>Morning!</h1>
+              <p>To log in to your account, enter your email address and password.</p>
+            </div>
+            <div className='inputs'>
+              <input
+                value={data.email}
+                onChange={(e: any) => setData({...data, email: e.target.value})}
+                data-valid={validateEmail(data.email) ? "true" : "false"}
+                className="email" 
+                type="text" 
+                placeholder='Enter username or email'
+              />
+              {!validateEmail(data.email) && (
+                <div className="field-error">Invalid email</div>
+              )}
+              <input 
+                value={data.password}
+                onChange={(e: any) => setData({...data, password: e.target.value})} 
+                data-valid={isValidPassword ? "true" : "false"}
+                className="password" 
+                type="password" 
+                placeholder='Enter password'
+              />
+              {!isValidPassword && (
+                <div className="field-error">Password must be at least 8 characters</div>
+              )}
+            </div>
+            <br />
+            <div>
+              <button
+                  type="submit"
+                  className='submitButton'
+                  disabled={!isValidPassword || !validateEmail(data.email)}
+                >
+                  Login
+              </button>
               <br />
-              <div>
-                <button
-                    type="submit"
-                    className='submitButton'
-                    disabled={!isValidPassword || !validateEmail(data.email)}
-                  >
-                    Login
-                </button>
-                <br />
-                {error && <div className='error-message'>{error}</div>}
-              </div>
-              <div>
-                <p id='Rights'>All rights reserved ...</p>
-              </div>
-          </div>   
-          <div className='hoverImg'>
-            <h3>Something</h3>
-          </div>
+              {error && <div className='error-message'>{error}</div>}
+            </div>
+          </div> 
+          <div className='footer'>
+            <p>All rights reserved ...</p>
+          </div>  
         </div> 
       </div>
     </form>
@@ -187,6 +184,12 @@ export const Login = () => {
     
   )
 }
+
+/*
+<div className='hoverImg'>
+    <h3>Something</h3>
+</div>
+*/
 
 //per debug, mostra a schermo la risposta salvata su localStorage
 //{response && <pre>{JSON.stringify(response, null, 2)}</pre>}
