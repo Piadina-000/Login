@@ -7,6 +7,9 @@
   background-color: #f3f6fb; 
   --card: #a7a4a4;
   --radius: 10px;
+
+  --bg: #c5f5d9;
+  --text: #000000;
 }
 
 .amministrazione {
@@ -31,48 +34,17 @@
   border: 1px solid rgba(0,0,0,0.04);
 }
 
-.amministrazione__header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin: 0 -36px 16px -36px;
-  padding: 20px 36px;
-  background: linear-gradient(180deg, #e8f6ff 0%, #dff3ff 100%); 
-  color: #0b3550; 
-  border-top-left-radius: calc(var(--radius, 8px) + 4px);
-  border-top-right-radius: calc(var(--radius, 8px) + 4px);
-}
-
-.amministrazione__header h1 {
-  margin: 0 0 8px 0;
-  font-size: 1.6rem;
-}
-
-.amministrazione__header::after {
-  content: "";
-  display: block;
-  width: 80%;
-  max-width: 440px;
-  height: 2px;
-  background: rgba(146, 148, 150, 0.08);
-  margin-top: 12px;
-  border-radius: 2px;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   padding: 30px 28px;
   margin: 0;
-  background: linear-gradient(180deg, #e8f6ff 0%, #dff3ff 100%);
+  background: var(--bg); 
   color: #0b3550;
   border: 2px solid #ddf2ff;
 }
+
 .header h1 {
   margin: 0;
   font-size: 3rem;
