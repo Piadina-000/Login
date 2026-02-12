@@ -258,7 +258,7 @@ body{
 .quadrato1{
   position: relative;
   top: 120px;
-  left: 65px;
+  left: 540px;
   rotate: 65deg;
   width: 250px;
   height: 250px;
@@ -270,7 +270,7 @@ body{
 .quadrato2{
   position: relative;
   top: -270px;
-  left: 700px;
+  left: 1175px;
   rotate: 25deg;
   width: 70px;
   height: 70px;
@@ -282,7 +282,7 @@ body{
 .quadrato3{
   position: relative;
   top: -10px;
-  left: 1300px;
+  left: 1775px;
   rotate: 30deg;
   width: 20px;
   height: 20px;
@@ -294,7 +294,7 @@ body{
 .quadrato4{
   position: relative;
   top: 430px;
-  left: 1050px;
+  left: 1525px;
   rotate: 20deg;
   width: 250px;
   height: 250px;
@@ -306,11 +306,69 @@ body{
 .quadrato5{
   position: relative;
   top: 220px;
-  left: 70px;
+  left: 545px;
   rotate: 20deg;
   width: 30px;
   height: 30px;
   background: #ffffff;
+  border-radius: 5px;
+  z-index: 0;
+}
+
+.quadrato6{
+  position: relative;
+  top: 30px;
+  left: 1805px;
+  rotate: 10deg;
+  width: 40px;
+  height: 40px;
+  background: #e7faef;
+  border-radius: 7px;
+  z-index: 0;
+}
+
+.quadrato7{
+  position: relative;
+  top: 455px;
+  left: 1000px;
+  rotate: -20deg;
+  width: 65px;
+  height: 65px;
+  background: #e5faf2;
+  border-radius: 10px;
+  z-index: 0;
+}
+
+.barra1{
+  position: relative;
+  top: 350px;
+  left: 1750px;
+  rotate: -70deg;
+  width: 100px;
+  height: 12px;
+  background: #5b9c76;
+  z-index: 0;
+}
+
+.barra2{
+  position: relative;
+  top: 340px;
+  left: 1780px;
+  rotate: -70deg;
+  width: 100px;
+  height: 12px;
+  background: #5b9c76;
+  z-index: 0;
+}
+
+.bordoBarre{
+  position: relative;
+  top: 280px;
+  left: 1765px;
+  width: 80px;
+  height: 80px;
+  background: transparent;
+  border: var(--bg) solid 12px;
   border-radius: 5px;
   z-index: 0;
 }
