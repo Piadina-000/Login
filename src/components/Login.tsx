@@ -112,17 +112,7 @@ export const Login = () => {
 
   return (
     <>
-    <div className='quadrato1'></div>
-    <div className='quadrato2'></div>
-    <div className='quadrato3'></div>
-    <div className='quadrato4'></div>
-    <div className='quadrato5'></div>
-    <div className='quadrato6'></div>
-    <div className='quadrato7'></div>
-
-    <div className='barra1'></div>
-    <div className='barra2'></div>
-    <div className='bordoBarre'></div>
+    
 
     <form onSubmit={handleSubmit}>
       <div className='Login'>
@@ -179,6 +169,17 @@ export const Login = () => {
           </div>  
         </div> 
       </div>
+      <div className='quadrato1'></div>
+      <div className='quadrato2'></div>
+      <div className='quadrato3'></div>
+      <div className='quadrato4'></div>
+      <div className='quadrato5'></div>
+      <div className='quadrato6'></div>
+      <div className='quadrato7'></div>
+
+      <div className='barra1'></div>
+      <div className='barra2'></div>
+      <div className='bordoBarre'></div>
     </form>
     </>
     

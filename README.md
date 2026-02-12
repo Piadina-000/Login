@@ -1,22 +1,49 @@
 # Login
+Applicazione di esempio per il login, sviluppata con React, TypeScript e Vite.
 
-Applicazione di esempio per il login sviluppata con React + TypeScript + Vite.
+## Breve descrizione
+- Interfaccia semplice di login e una pagina di amministrazione.
 
 ## Caratteristiche
-- Interfaccia di login semplice
-- Struttura in `src/components`
-- Stili in `src/styles`
+- Form di login con validazione
+- Layout e stili modulari in `src/styles`
+- Componenti riutilizzabili in `src/components`
 
 ## Tech stack
-- React 
+- React
 - TypeScript
 - Vite
 
-## Struttura del progetto (principale)
-- `src/` — codice sorgente
-  - `components/` — componenti React 
-  - `styles/` — fogli di stile CSS
+## Prerequisiti
+- Node.js 
+- npm 
 
-## Componenti principali
-- `Login.tsx` — form di autenticazione
-- `Amministrazione.tsx` — area dopo il login
+## Installazione
+Esegui i comandi nella cartella del progetto:
+
+```bash
+npm install
+```
+
+## Avvio in sviluppo
+
+```bash
+npm run dev
+```
+
+## Build per produzione
+
+```bash
+npm run build
+```
+
+## Anteprima della build
+
+```bash
+npm run preview
+```
+
+## Struttura del progetto
+  - `src/` — codice sorgente
+  - `components/` — componenti React (`Login.tsx`, `Amministrazione.tsx`)
+  - `styles/` — file CSS
