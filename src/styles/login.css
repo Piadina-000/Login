@@ -38,7 +38,6 @@ body{
   border-radius: calc(var(--radius) + 2px);
   box-shadow: #57595e 0px 2px 4px -3px;
  
-
   gap: 15%;
   
   align-items: center;
@@ -83,7 +82,6 @@ body{
 }
 
 #parteColorata{
-  
   color: rgb(72, 190, 72);
 }
 
@@ -184,7 +182,6 @@ body{
 }
 
 .submitButton:hover{
-
   transform:translateY(-2px);
 }
 .submitButton:active{
@@ -256,8 +253,8 @@ body{
 }
 */
 
-/* grafica sfondo */
 
+/* grafica sfondo */
 .quadrato1{
   position: relative;
   top: 120px;
@@ -374,4 +371,10 @@ body{
   border: var(--bg) solid 12px;
   border-radius: 5px;
   z-index: 0;
+}
+
+.submitButton[disabled]{
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
