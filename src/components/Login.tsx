@@ -23,12 +23,41 @@ export const Login = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // messaggi di errore mostrati a schermo
-  const [error, setError] = useState<string | null>(null)
+  // messaggi di errore: chiave di traduzione e messaggio server grezzo
+  const [errorKey, setErrorKey] = useState<'errCredentials' | 'errNetwork' | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   // boolean per indicare se l'utente è autenticato
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!(localStorage.getItem('response')));
   const navigate = useNavigate();
+
+  // stato per la lingua (en/it)
+  const [lang, setLang] = useState<'en' | 'it'>('en');
+
+  const translations = {
+    en: {
+      greeting: 'Morning!',
+      subheading: 'To log in to your account, enter your email address and password.',
+      placeholders: { email: 'Enter username or email', password: 'Enter password' },
+      login: 'Login',
+      loading: 'Loading...',
+      invalidEmail: 'Invalid email address.',
+      passwordTooShort: 'Password must be at least 8 characters long.',
+      errCredentials: 'Incorrect email or password.',
+      errNetwork: 'Network error. Please try again later.'
+    },
+    it: {
+      greeting: 'Buongiorno!',
+      subheading: "Per accedere al tuo account, inserisci la tua email e password.",
+      placeholders: { email: 'Inserisci username o email', password: 'Inserisci la password' },
+      login: 'Accedi',
+      loading: 'Caricamento...',
+      invalidEmail: 'Indirizzo email non valido.',
+      passwordTooShort: 'La password deve essere di almeno 8 caratteri.',
+      errCredentials: 'Email o password errati.',
+      errNetwork: 'Errore di rete. Riprova più tardi.'
+    }
+  } as const;
 
 
   // funzione di validazione per l'email
@@ -60,12 +89,16 @@ export const Login = () => {
       localStorage.removeItem('response');
     }
   }, [response]);
+
+  // Nota: usiamo `errorKey` + `serverError` per evitare di dover riscrivere
+  // manualmente il testo di `error` quando cambia la lingua.
   
 
   // gestione dell'invio del form (POST)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrorKey(null);
+    setServerError(null);
 
     setLoading(true);
     try {
@@ -84,7 +117,7 @@ export const Login = () => {
       }
 
       if (res.status === 401) {
-        setError('Incorrect email or password.');
+        setErrorKey('errCredentials');
         setResponse(null);
         return;
       }
@@ -94,17 +127,18 @@ export const Login = () => {
           ? (result as any).message
           : (typeof result === 'string' ? result : `Server error ${res.status}`);
         console.error('SERVER ERROR', res.status, result);
-        setError(String(serverMessage));
+        setServerError(String(serverMessage));
         setResponse(null);
         return;
       }
 
       setResponse(result as LoginResponse);
-      setError(null);
+      setErrorKey(null);
+      setServerError(null);
       setIsLoggedIn(true);
     } catch (err: any) {
       console.error('FETCH ERROR:', err);
-      setError('Network error. Please check your connection.');
+      setErrorKey('errNetwork');
     } finally {
       setLoading(false);
     }
@@ -119,13 +153,25 @@ export const Login = () => {
         <div className='LoginBox'>
           <div className='LoginBody'>
             <div className='TopHeading'>
-              <p>Na</p>
-              <p id='parteColorata'>me</p>
-              
+              <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+                <p>Na</p>
+                <p id='parteColorata'>me</p>
+              </div>
+              <div className='langSelect'>
+                <select
+                  id='languageSelect'
+                  value={lang}
+                  onChange={(e) => setLang(e.target.value as 'en' | 'it')}
+                  aria-label='Select language'
+                >
+                  <option value='en'>EN</option>
+                  <option value='it'>IT</option>
+                </select>
+              </div>
             </div>
             <div className='LoginHeader'>
-              <h1>Morning!</h1>
-              <p>To log in to your account, enter your email address and password.</p>
+              <h1>{translations[lang].greeting}</h1>
+              <p>{translations[lang].subheading}</p>
             </div>
             <div className='inputs'>
 
@@ -137,11 +183,11 @@ export const Login = () => {
                 data-valid={validateEmail(data.email) ? "true" : "false"}
                 className="email" 
                 type="email" 
-                placeholder='Enter username or email'
+                placeholder={translations[lang].placeholders.email}
                 aria-describedby={!validateEmail(data.email) ? 'email-error' : undefined}
               />
               {!validateEmail(data.email) && (
-                <div id="email-error" className="field-error">Invalid email address</div>
+                <div id="email-error" className="field-error">{translations[lang].invalidEmail}</div>
               )}
 
               
@@ -153,11 +199,11 @@ export const Login = () => {
                 data-valid={isValidPassword(data.password) ? "true" : "false"}
                 className="password" 
                 type="password" 
-                placeholder='Enter password'
+                placeholder={translations[lang].placeholders.password}
                 aria-describedby={!isValidPassword(data.password) ? 'password-error' : undefined}
               />
               {!isValidPassword(data.password) && (
-                <div id="password-error" className="field-error">Password must be at least 8 characters long.</div>
+                <div id="password-error" className="field-error">{translations[lang].passwordTooShort}</div>
               )}
             </div>
             <div>
@@ -167,12 +213,11 @@ export const Login = () => {
                 disabled={loading || !isValidPassword(data.password) || !validateEmail(data.email)}
                 aria-busy={loading}
               >
-                {loading ? 'Loading...' : 'Login'}
+                {loading ? translations[lang].loading : translations[lang].login}
               </button>
-              <br />
-              {error && (
+              {(serverError || errorKey) && (
                 <div role="status" aria-live="polite" id="form-error" className='error-message'>
-                  {error}
+                  {serverError ?? (errorKey ? translations[lang][errorKey] : null)}
                 </div>
               )}
             </div>

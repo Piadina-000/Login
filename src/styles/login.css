@@ -73,6 +73,7 @@ body{
 .TopHeading{
   display: flex;
   align-items: center;
+  
 }
 
 .TopHeading p{
@@ -85,18 +86,20 @@ body{
   color: rgb(72, 190, 72);
 }
 
-/*
-#languageButton{
+
+.langSelect{
+  margin-left: auto;
+}
+
+#languageSelect{
   background: transparent;
-  border: none;
-  color: var(--text);
-  font-size: 0.7rem;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 8px;
   font-weight: 700;
   cursor: pointer;
-
-  margin-left: 82%;
+  color: var(--text);
 }
-*/
 
 .LoginHeader{
   display: flex;
