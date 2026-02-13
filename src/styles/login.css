@@ -8,14 +8,13 @@
   --text: #000000;
 }
 
-/**{box-sizing: border-box}*/
 
+/* basi*/
 body{
   margin: 0;
   background: var(--bg);
   color: var(--text);
 }
-
 
 .Login{
   position: absolute;
@@ -59,17 +58,7 @@ body{
   align-items: start;
 }
 
-
-.footer{
-  font-size: 0.9rem;
-  color: var(--muted);
-  text-align: center;
-  margin: 0;
-  width: 40%;
-}
-  
-
-/* header */
+/* top header */
 .TopHeading{
   display: flex;
   align-items: center;
@@ -101,6 +90,7 @@ body{
   color: var(--text);
 }
 
+/* header */
 .LoginHeader{
   display: flex;
   flex-direction: column;
@@ -136,7 +126,7 @@ body{
 }
 
 
-/* imputs*/
+/* inputs*/
 .inputs{
   padding: 8px 0 0 0;
   display: flex;
@@ -258,6 +248,16 @@ body{
   font-weight: 600;
 }
 */
+
+
+/* footer */
+.footer{
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  width: 40%;
+}
 
 
 /* grafica sfondo */

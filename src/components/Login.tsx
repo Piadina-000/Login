@@ -89,9 +89,6 @@ export const Login = () => {
       localStorage.removeItem('response');
     }
   }, [response]);
-
-  // Nota: usiamo `errorKey` + `serverError` per evitare di dover riscrivere
-  // manualmente il testo di `error` quando cambia la lingua.
   
 
   // gestione dell'invio del form (POST)
@@ -146,8 +143,6 @@ export const Login = () => {
 
   return (
     <>
-    
-
     <form onSubmit={handleSubmit}>
       <div className='Login'>
         <div className='LoginBox'>
@@ -245,8 +240,6 @@ export const Login = () => {
 }
 
 /*
-<input id="languageButton" type="button" value="EN ▼" />
-
 <div id='hoverImg'>
     <h3>Something</h3>
 </div>
