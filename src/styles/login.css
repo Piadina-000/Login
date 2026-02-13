@@ -85,6 +85,7 @@ body{
   color: rgb(72, 190, 72);
 }
 
+/*
 #languageButton{
   background: transparent;
   border: none;
@@ -95,6 +96,7 @@ body{
 
   margin-left: 82%;
 }
+*/
 
 .LoginHeader{
   display: flex;
@@ -255,7 +257,7 @@ body{
 
 
 /* grafica sfondo */
-.quadrato1{
+#quadrato1{
   position: relative;
   top: 120px;
   left: 540px;
@@ -267,7 +269,7 @@ body{
   z-index: 0;
 }
 
-.quadrato2{
+#quadrato2{
   position: relative;
   top: -270px;
   left: 1175px;
@@ -279,7 +281,7 @@ body{
   z-index: 0;
 }
 
-.quadrato3{
+#quadrato3{
   position: relative;
   top: -10px;
   left: 1775px;
@@ -291,7 +293,7 @@ body{
   z-index: 0;
 }
 
-.quadrato4{
+#quadrato4{
   position: relative;
   top: 430px;
   left: 1525px;
@@ -303,7 +305,7 @@ body{
   z-index: 0;
 }
 
-.quadrato5{
+#quadrato5{
   position: relative;
   top: 220px;
   left: 545px;
@@ -315,7 +317,7 @@ body{
   z-index: 0;
 }
 
-.quadrato6{
+#quadrato6{
   position: relative;
   top: 30px;
   left: 1805px;
@@ -327,7 +329,7 @@ body{
   z-index: 0;
 }
 
-.quadrato7{
+#quadrato7{
   position: relative;
   top: 455px;
   left: 1000px;
@@ -339,7 +341,7 @@ body{
   z-index: 0;
 }
 
-.barra1{
+#barra1{
   position: relative;
   top: 350px;
   left: 1750px;
@@ -350,7 +352,7 @@ body{
   z-index: 0;
 }
 
-.barra2{
+#barra2{
   position: relative;
   top: 340px;
   left: 1780px;
@@ -361,7 +363,7 @@ body{
   z-index: 0;
 }
 
-.bordoBarre{
+#bordoBarre{
   position: relative;
   top: 280px;
   left: 1765px;

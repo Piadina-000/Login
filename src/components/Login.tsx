@@ -121,7 +121,7 @@ export const Login = () => {
             <div className='TopHeading'>
               <p>Na</p>
               <p id='parteColorata'>me</p>
-              <input id="languageButton" type="button" value="EN ▼" />
+              
             </div>
             <div className='LoginHeader'>
               <h1>Morning!</h1>
@@ -168,7 +168,7 @@ export const Login = () => {
                 disabled={loading || !isValidPassword(data.password) || !validateEmail(data.email)}
                 aria-busy={loading}
               >
-                {loading ? 'Caricamento...' : 'Login'}
+                {loading ? 'Loading...' : 'Login'}
               </button>
               <br />
               {error && (
@@ -179,21 +179,21 @@ export const Login = () => {
             </div>
           </div> 
           <div className='footer'>
-            <p>All rights reserved ...</p>
+            <p>All rights reserved Asistar</p>
           </div>  
         </div> 
       </div>
-      <div className='quadrato1'></div>
-      <div className='quadrato2'></div>
-      <div className='quadrato3'></div>
-      <div className='quadrato4'></div>
-      <div className='quadrato5'></div>
-      <div className='quadrato6'></div>
-      <div className='quadrato7'></div>
+      <div id='quadrato1'></div>
+      <div id='quadrato2'></div>
+      <div id='quadrato3'></div>
+      <div id='quadrato4'></div>
+      <div id='quadrato5'></div>
+      <div id='quadrato6'></div>
+      <div id='quadrato7'></div>
 
-      <div className='barra1'></div>
-      <div className='barra2'></div>
-      <div className='bordoBarre'></div>
+      <div id='barra1'></div>
+      <div id='barra2'></div>
+      <div id='bordoBarre'></div>
     </form>
     </>
     
@@ -201,7 +201,9 @@ export const Login = () => {
 }
 
 /*
-<div className='hoverImg'>
+<input id="languageButton" type="button" value="EN ▼" />
+
+<div id='hoverImg'>
     <h3>Something</h3>
 </div>
 */
