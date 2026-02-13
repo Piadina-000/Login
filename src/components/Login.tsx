@@ -160,7 +160,6 @@ export const Login = () => {
                 <div id="password-error" className="field-error">Password must be at least 8 characters long.</div>
               )}
             </div>
-            <br />
             <div>
               <button
                 type="submit"
