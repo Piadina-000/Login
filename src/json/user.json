@@ -1,0 +1,28 @@
+[
+{
+    "nome": "Giovanni",
+    "cognome": "Pippo",
+    "indirizzo":"via kufstein",
+    "email": "info@asistar.it",
+    "usrname": "info@asistar.it",
+    "password": "paperino123"
+},
+
+{
+    "nome": "Carmen",
+    "cognome": "Nuvoli",
+    "indirizzo":"via 3 croci",
+    "email": "carmen@asistar.it",
+    "usrname": "carmen@asistar.it",
+    "password": "pavesini123"
+},
+
+{
+    "nome": "Alessio",
+    "cognome": "Innocenti",
+    "indirizzo":"via delle peonie",
+    "email": "alessio@asistar.it",
+    "usrname": "alessio@asistar.it",
+    "password": "peonia123"
+}
+]

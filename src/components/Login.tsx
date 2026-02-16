@@ -13,6 +13,7 @@ export const Login = () => {
   // Dati del form (email + password). Valori di esempio.
   const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
 
+
   // saved response (typed)
   const [response, setResponse] = useState<LoginResponse | null>(() => {
     const saved = localStorage.getItem('response');
@@ -26,6 +27,7 @@ export const Login = () => {
   // messaggi di errore: chiave di traduzione e messaggio server grezzo
   const [errorKey, setErrorKey] = useState<'errCredentials' | 'errNetwork' | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
+
 
   // boolean per indicare se l'utente è autenticato
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!(localStorage.getItem('response')));
