@@ -3,37 +3,45 @@ import '../styles/login.css'
 
 import { useNavigate } from 'react-router-dom';
 import type { PostData, LoginResponse } from '../types';
+import { authenticateLocalUser, getAuthResponse, saveAuthResponse } from '../service/service';
 
-// Componente che gestisce il login.
-// - Stato per email/password
-// - Salvataggio su local storage di response
-// - Validazione
-// - Chiamata fetch
+/**
+ * Componente Login
+ * Gestisce l'autenticazione dell'utente con:
+ * - Form per email/username e password
+ * - Validazione dei campi (formato email e lunghezza password)
+ * - Autenticazione locale tramite user.json
+ * - Salvataggio della sessione nel localStorage
+ * - Supporto multilingua (IT/EN)
+ */
 export const Login = () => {
-  // Dati del form (email + password). Valori di esempio.
-  const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "admin12345" });
+  // Stato per i dati del form (email/username e password)
+  // Può essere inizializzato con valori di default
+  //const [data, setData] = useState<PostData>({ email: "carmen@asistar.it", password: "pavesini123" });
+  const [data, setData] = useState<PostData>({ email: "", password: "" });
 
+  // Stato per la response di autenticazione (recuperata dal localStorage se presente)
+  const [response, setResponse] = useState<LoginResponse | null>(() => getAuthResponse());
 
-  // saved response (typed)
-  const [response, setResponse] = useState<LoginResponse | null>(() => {
-    const saved = localStorage.getItem('response');
-    return saved ? JSON.parse(saved) as LoginResponse : null;
-  });
-
+  // Ref per gli input 
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  
+  // Stato per indicare se è in corso una richiesta di autenticazione
   const [loading, setLoading] = useState<boolean>(false);
 
-  // messaggi di errore: chiave di traduzione e messaggio server grezzo
+  // Gestione degli errori: chiave di traduzione e messaggio personalizzato
   const [errorKey, setErrorKey] = useState<'errCredentials' | 'errNetwork' | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
 
+  // Stato per tracciare se l'utente ha interagito con i campi (per mostrare errori solo dopo l'interazione)
+  const [touched, setTouched] = useState({ email: false, password: false });
 
-  // boolean per indicare se l'utente è autenticato
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!(localStorage.getItem('response')));
+  // Stato per sapere se l'utente è autenticato (verifica presenza dati nel localStorage)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!getAuthResponse());
   const navigate = useNavigate();
 
-  // stato per la lingua (en/it)
+  // Stato per la lingua dell'interfaccia (inglese o italiano)
   const [lang, setLang] = useState<'en' | 'it'>('en');
 
   const translations = {
@@ -62,83 +70,79 @@ export const Login = () => {
   } as const;
 
 
-  // funzione di validazione per l'email
+  /**
+   * Valida il formato dell'email
+   * @param email - Stringa da validare
+   * @returns true se il formato è valido 
+   */
   const validateEmail = (email: string): boolean => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  // controllo minimo sulla password (>=8 caratteri)
+  /**
+   * Verifica che la password sia di almeno 8 caratteri
+   * @param password - Password da validare
+   * @returns true se la lunghezza è >= 8
+   */
   const isValidPassword = (password: string) => password.length >= 8;
 
-
-  // se isLoggedIn diventa true, si sposta su /admin 
+  /**
+   * Reindirizza alla pagina admin quando l'utente è autenticato
+   * Si attiva quando isLoggedIn diventa true
+   */
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/admin');
     }
   }, [isLoggedIn, navigate]);
 
-  // passa il response al localStorage ogni volta che cambia, oppure lo rimuove se è null
+  /**
+   * Salva automaticamente la response nel localStorage ogni volta che cambia
+   * Se response è null, i dati vengono rimossi (logout)
+   */
   useEffect(() => {
-    if (response) {
-      try {
-        localStorage.setItem('response', JSON.stringify(response));
-      } catch (e) {
-        console.error('Impossible to save to localStorage', e);
-      }
-    } else {
-      localStorage.removeItem('response');
+    try {
+      saveAuthResponse(response);
+    } catch (e) {
+      console.error('Impossible to save to localStorage', e);
     }
   }, [response]);
   
-
-  // gestione dell'invio del form (POST)
+  /**
+   * Gestisce l'invio del form di login
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Marca tutti i campi come "toccati" al submit per mostrare eventuali errori
+    setTouched({ email: true, password: true });
+    // Reset degli errori precedenti
     setErrorKey(null);
     setServerError(null);
 
     setLoading(true);
     try {
-      const res = await fetch('https://shiftcaller.it/api/mockup-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      // Autentica l'utente usando i dati locali da user.json
+      const result = authenticateLocalUser(data);
 
-      const contentType = res.headers.get('content-type') || '';
-      let result: LoginResponse | string | null = null;
-      if (contentType.includes('application/json')) {
-        result = await res.json();
-      } else {
-        result = await res.text();
-      }
-
-      if (res.status === 401) {
+      if (!result.ok) {
+        // Credenziali errate: mostra messaggio di errore
         setErrorKey('errCredentials');
         setResponse(null);
         return;
       }
 
-      if (!res.ok) {
-        const serverMessage = (result && typeof result === 'object' && (result as any).message)
-          ? (result as any).message
-          : (typeof result === 'string' ? result : `Server error ${res.status}`);
-        console.error('SERVER ERROR', res.status, result);
-        setServerError(String(serverMessage));
-        setResponse(null);
-        return;
-      }
-
-      setResponse(result as LoginResponse);
+      // Autenticazione riuscita: salva i dati e imposta login
+      setResponse(result.response as LoginResponse);
       setErrorKey(null);
       setServerError(null);
       setIsLoggedIn(true);
     } catch (err: any) {
-      console.error('FETCH ERROR:', err);
+      // Errore generico (es. problema con localStorage)
+      console.error('AUTH ERROR:', err);
       setErrorKey('errNetwork');
     } finally {
+      // Rimuove lo stato di loading in ogni caso
       setLoading(false);
     }
   };
@@ -177,13 +181,14 @@ export const Login = () => {
                 ref={emailRef}
                 value={data.email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({...data, email: e.target.value})}
+                onBlur={() => setTouched({...touched, email: true})}
                 data-valid={validateEmail(data.email) ? "true" : "false"}
                 className="email" 
                 type="email" 
                 placeholder={translations[lang].placeholders.email}
-                aria-describedby={!validateEmail(data.email) ? 'email-error' : undefined}
+                aria-describedby={touched.email && !validateEmail(data.email) ? 'email-error' : undefined}
               />
-              {!validateEmail(data.email) && (
+              {touched.email && !validateEmail(data.email) && (
                 <div id="email-error" className="field-error">{translations[lang].invalidEmail}</div>
               )}
 
@@ -193,13 +198,14 @@ export const Login = () => {
                 ref={passwordRef}
                 value={data.password}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData({...data, password: e.target.value})} 
+                onBlur={() => setTouched({...touched, password: true})}
                 data-valid={isValidPassword(data.password) ? "true" : "false"}
                 className="password" 
                 type="password" 
                 placeholder={translations[lang].placeholders.password}
-                aria-describedby={!isValidPassword(data.password) ? 'password-error' : undefined}
+                aria-describedby={touched.password && !isValidPassword(data.password) ? 'password-error' : undefined}
               />
-              {!isValidPassword(data.password) && (
+              {touched.password && !isValidPassword(data.password) && (
                 <div id="password-error" className="field-error">{translations[lang].passwordTooShort}</div>
               )}
             </div>

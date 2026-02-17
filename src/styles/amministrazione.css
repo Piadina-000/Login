@@ -70,6 +70,7 @@
   left: 50%;
   position: absolute;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -81,9 +82,30 @@
   border-radius: calc(var(--radius) + 2px);
 }
 
-.body__container p {
-  margin: 0;
+.body__container h2 {
+  margin: 0 0 24px 0;
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.body__container p {
+  margin: 8px 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.user-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-info p {
+  margin: 4px 0;
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
 }
 
