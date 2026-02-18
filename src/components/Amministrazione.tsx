@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../styles/amministrazione.css'
+import '../styles/afterLogin.css'
 import { useNavigate } from 'react-router-dom'
 import type { LoginResponse } from '../types'
 import { clearAuthResponse, getAuthResponse } from '../service/service'
@@ -47,7 +48,7 @@ export const Amministrazione = () => {
     */
 
     return (
-        <div className='amministrazione'>
+        <div className='pagina'>
             <div className='header'>
                 <h1>Amministrazione</h1>
                 <button className='logoutButton' onClick={handleLogout}>Logout</button>

@@ -1,0 +1,294 @@
+.body__container:has(.listaBici) {
+  width: min(90vw, 1600px);
+  max-width: 90vw;
+  max-height: none;
+  overflow-y: visible;
+}
+
+.listaBici {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.listaBici h1 {
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.listaBici p {
+  margin: 0 0 32px 0;
+  color: #e0e0e0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.listaBici__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #4a5861;
+}
+
+.listaBici__header-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.listaBici__btn-add {
+  padding: 10px 24px;
+  background-color: #5cb3ff;
+  color: #0b3550;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(92, 179, 255, 0.3);
+}
+
+.listaBici__btn-add:hover {
+  background-color: #4da3ef;
+  transform: translateY(-1px);
+}
+
+.listaBici__table-wrapper {
+  overflow-x: auto;
+  background-color: #3a4850;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.listaBici__table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+}
+
+.listaBici__table thead {
+  background-color: #2a3840;
+  border-bottom: 2px solid #4a5861;
+}
+
+.listaBici__table th {
+  padding: 16px 12px;
+  text-align: left;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.listaBici__table td {
+  padding: 16px 12px;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #4a5861;
+}
+
+.listaBici__table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.listaBici__table tbody tr:hover {
+  background-color: #424e57;
+}
+
+.listaBici__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* img */
+.listaBici__img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #4a5861;
+}
+
+.listaBici__img-placeholder {
+  width: 60px;
+  height: 60px;
+  background-color: #2a3840;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a9199;
+  font-size: 0.75rem;
+  border: 2px solid #4a5861;
+}
+
+/* Badge per stato */
+.listaBici__badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.listaBici__badge--active {
+  background-color: #51cf66;
+  color: #0b3550;
+}
+
+.listaBici__badge--inactive {
+  background-color: #868e96;
+  color: #ffffff;
+}
+
+.listaBici__badge--esaurito {
+  background-color: #ff6b6b;
+  color: #ffffff;
+}
+
+.listaBici__badge--disponibile {
+  background-color: #5cb3ff;
+  color: #0b3550;
+}
+
+/* Prezzo */
+.listaBici__price {
+  font-weight: 600;
+  color: #45515b;
+}
+
+/* Stock */
+.listaBici__stock {
+  font-weight: 600;
+}
+
+.listaBici__stock--low {
+  color: #ffd43b;
+}
+
+.listaBici__stock--out {
+  color: #ff6b6b;
+}
+
+/* Azioni */
+.listaBici__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.listaBici__action-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.listaBici__action-btn--view {
+  background-color: #5cb3ff;
+  color: #0b3550;
+}
+
+.listaBici__action-btn--view:hover {
+  background-color: #4da3ef;
+  transform: scale(1.05);
+}
+
+.listaBici__action-btn--edit {
+  background-color: #ffd43b;
+  color: #0b3550;
+}
+
+.listaBici__action-btn--edit:hover {
+  background-color: #fcc419;
+  transform: scale(1.05);
+}
+
+.listaBici__action-btn--delete {
+  background-color: #ff6b6b;
+  color: #ffffff;
+}
+
+.listaBici__action-btn--delete:hover {
+  background-color: #fa5252;
+  transform: scale(1.05);
+}
+
+/* Empty state */
+.listaBici__empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #8a9199;
+}
+
+.listaBici__empty-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.listaBici__empty-text {
+  font-size: 1.1rem;
+  margin: 0 0 24px 0;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .listaBici__table th,
+  .listaBici__table td {
+    padding: 12px 8px;
+    font-size: 0.875rem;
+  }
+  
+  .listaBici__action-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .listaBici__header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .listaBici__btn-add {
+    width: 100%;
+  }
+  
+  .listaBici__table {
+    font-size: 0.85rem;
+  }
+  
+  .listaBici__table th,
+  .listaBici__table td {
+    padding: 10px 6px;
+  }
+  
+  .listaBici__actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .listaBici__action-btn {
+    width: 100%;
+  }
+  
+  .listaBici__pagination {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,191 @@
+.body__container:has(.aggiungiBici) {
+  max-height: none;
+  overflow-y: visible;
+  width: min(800px, 90%);
+}
+
+.aggiungiBici {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.aggiungiBici h1 {
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.aggiungiBici p {
+  margin: 0 0 32px 0;
+  color: #e0e0e0;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.aggiungiBici__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.aggiungiBici__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aggiungiBici__form label {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aggiungiBici__form label .required {
+  color: #ff6b6b;
+  font-size: 1.1rem;
+}
+
+.aggiungiBici__form input[type='text'],
+.aggiungiBici__form input[type='number'],
+.aggiungiBici__form input[type='url'],
+.aggiungiBici__form select,
+.aggiungiBici__form textarea {
+  padding: 12px 16px;
+  border: 2px solid #4a5861;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #3a4850;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.aggiungiBici__form input[type='text']:focus,
+.aggiungiBici__form input[type='number']:focus,
+.aggiungiBici__form input[type='url']:focus,
+.aggiungiBici__form select:focus,
+.aggiungiBici__form textarea:focus {
+  border-color: #5cb3ff;
+  background-color: #424e57;
+  box-shadow: 0 0 0 3px rgba(92, 179, 255, 0.1);
+}
+
+.aggiungiBici__form input::placeholder,
+.aggiungiBici__form textarea::placeholder {
+  color: #8a9199;
+}
+
+.aggiungiBici__form textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.aggiungiBici__form select {
+  cursor: pointer;
+}
+
+.aggiungiBici__form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.aggiungiBici__form-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.aggiungiBici__form-checkbox input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #5cb3ff;
+}
+
+.aggiungiBici__form-checkbox label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.aggiungiBici__form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid #4a5861;
+}
+
+.aggiungiBici__btn {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.aggiungiBici__btn--primary {
+  background-color: #5cb3ff;
+  color: #0b3550;
+  box-shadow: 0 2px 8px rgba(92, 179, 255, 0.3);
+}
+
+.aggiungiBici__btn--primary:hover {
+  background-color: #4da3ef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(92, 179, 255, 0.4);
+}
+
+.aggiungiBici__btn--primary:active {
+  transform: translateY(0);
+}
+
+.aggiungiBici__btn--secondary {
+  background-color: #5a6872;
+  color: #ffffff;
+}
+
+.aggiungiBici__btn--secondary:hover {
+  background-color: #4a5861;
+}
+
+.aggiungiBici__form-error {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.aggiungiBici__form-help {
+  color: #a0aab3;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .aggiungiBici__form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .aggiungiBici__form-actions {
+    flex-direction: column;
+  }
+  
+  .aggiungiBici__btn {
+    width: 100%;
+  }
+}
