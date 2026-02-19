@@ -5,12 +5,12 @@ export const AggiungiBici = () => {
     return (
         <div className='pagina'>
             <div className='header'>
-                <h1>Amministrazione</h1>
+                <h1>Aggiungi Nuova Bicicletta</h1>
             </div>
             <div className='body'>
                 <div className='body__container'>
                     <div className='aggiungiBici'>
-                        <h1>Aggiungi Nuova Bicicletta</h1>
+                        
                         <p>Compila il form per aggiungere una nuova bicicletta al catalogo.</p>
                         
                         <form className='aggiungiBici__form'>

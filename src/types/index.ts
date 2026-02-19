@@ -19,6 +19,7 @@ export interface LoginResponse {
         cognome?: string;
         indirizzo?: string;
         usrname?: string;
+        displayName?: string; // Nome completo per la visualizzazione
     };
     message?: string;   // Messaggio di successo o info
     error?: string;     // Messaggio di errore

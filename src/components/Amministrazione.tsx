@@ -3,12 +3,13 @@ import '../styles/amministrazione.css'
 import '../styles/afterLogin.css'
 import { useNavigate } from 'react-router-dom'
 import type { LoginResponse } from '../types'
-import { clearAuthResponse, getAuthResponse } from '../service/service'
+import { getAuthResponse } from '../service/service'
 
 /**
- * Componente Amministrazione
+ * Componente Amministrazione (Dashboard)
  * Pagina protetta che mostra i dati dell'utente autenticato.
  * Se l'utente non è autenticato, viene reindirizzato alla pagina di login.
+ * Il logout è gestito dalla Sidebar.
  */
 export const Amministrazione = () => {
     const navigate = useNavigate()
@@ -27,15 +28,6 @@ export const Amministrazione = () => {
         }
     }, [navigate])
 
-    /**
-     * Gestisce il logout dell'utente
-     * Cancella i dati dal localStorage e reindirizza al login
-     */
-    const handleLogout = () => {
-        clearAuthResponse()
-        navigate('/')
-    }
-
     /*
     //per debug, mostra a schermo la risposta salvata su localStorage
   
@@ -50,8 +42,7 @@ export const Amministrazione = () => {
     return (
         <div className='pagina'>
             <div className='header'>
-                <h1>Amministrazione</h1>
-                <button className='logoutButton' onClick={handleLogout}>Logout</button>
+                <h1>Dashboard</h1>
             </div>
             <div className='body'>
                 <div className='body__container'>

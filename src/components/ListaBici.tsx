@@ -36,12 +36,12 @@ export const ListaBici = () => {
     return (
         <div className='pagina'>
             <div className='header'>
-                <h1>Amministrazione</h1>
+                <h1>Catalogo Biciclette</h1>
             </div>
             <div className='body'>
                 <div className='body__container'>
                     <div className='listaBici'>
-                        <h1>Catalogo Biciclette</h1>
+                        
                         <p>Gestisci tutte le biciclette disponibili nel sistema.</p>
                         
                         <div className='listaBici__header'>
