@@ -7,9 +7,7 @@ import { getAuthResponse } from '../service/service'
 
 /**
  * Componente Amministrazione (Dashboard)
- * Pagina protetta che mostra i dati dell'utente autenticato.
- * Se l'utente non è autenticato, viene reindirizzato alla pagina di login.
- * Il logout è gestito dalla Sidebar.
+ * Pagina che mostra i dati dell'utente autenticato.
  */
 export const Amministrazione = () => {
     const navigate = useNavigate()
@@ -54,6 +52,7 @@ export const Amministrazione = () => {
                             {auth.user.email && <p><strong>Email:</strong> {auth.user.email}</p>}
                             {auth.user.usrname && <p><strong>Username:</strong> {auth.user.usrname}</p>}
                             {auth.user.indirizzo && <p><strong>Indirizzo:</strong> {auth.user.indirizzo}</p>}
+                            {auth.user.ruolo && <p><strong>Ruolo:</strong> {auth.user.ruolo}</p>}
                         </div>
                     )}
                 </div>

@@ -38,6 +38,8 @@ export const authenticateLocalUser = (data: PostData): AuthResult => {
 				cognome: match.cognome,
 				indirizzo: match.indirizzo,
 				usrname: match.usrname,
+				ruolo: match.ruolo,
+				displayName: `${match.nome} ${match.cognome}`,
 			},
 		},
 	}

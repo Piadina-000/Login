@@ -19,6 +19,7 @@ export interface LoginResponse {
         cognome?: string;
         indirizzo?: string;
         usrname?: string;
+        ruolo?: string;
         displayName?: string; // Nome completo per la visualizzazione
     };
     message?: string;   // Messaggio di successo o info
@@ -35,6 +36,7 @@ export interface AuthUser {
 	email: string       // Email dell'utente (usata anche come ID)
 	usrname: string     // Username alternativo per il login
 	password: string    // Password dell'utente (in chiaro per questo mock)
+	ruolo: string       // Ruolo dell'utente (Amministratore, Supervisore, Operatore)
 }
 
 /**

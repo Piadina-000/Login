@@ -5,7 +5,8 @@
     "indirizzo":"via kufstein",
     "email": "info@asistar.it",
     "usrname": "info@asistar.it",
-    "password": "paperino123"
+    "password": "paperino123",
+    "ruolo": "Amministratore"
 },
 
 {
@@ -14,7 +15,8 @@
     "indirizzo":"via 3 croci",
     "email": "carmen@asistar.it",
     "usrname": "carmen@asistar.it",
-    "password": "pavesini123"
+    "password": "pavesini123",
+    "ruolo": "Supervisore"
 },
 
 {
@@ -23,6 +25,7 @@
     "indirizzo":"via delle peonie",
     "email": "alessio@asistar.it",
     "usrname": "alessio@asistar.it",
-    "password": "peonia123"
+    "password": "peonia123",
+    "ruolo": "Operatore"
 }
 ]

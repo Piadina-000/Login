@@ -124,7 +124,6 @@
   font-size: 0.95rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  border-left: 3px solid transparent;
   white-space: nowrap;
 }
 
@@ -204,7 +203,6 @@
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  border-left: 2px solid transparent;
   white-space: nowrap;
 }
 
@@ -355,33 +353,4 @@
   font-size: 1.1rem;
   color: #666;
   font-weight: 600;
-}
-
-
-@media (max-width: 768px) {
-  .admin-layout {
-    flex-direction: column;
-  }
-
-  .admin-layout__main {
-    flex: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .sidebar {
-    width: 100%;
-  }
-
-  .sidebar__header {
-    padding: 1rem;
-  }
-
-  .sidebar__item {
-    padding: 0.75rem 0.75rem;
-  }
-
-  .sidebar__subitem {
-    padding: 0.65rem 0.75rem 0.65rem 2.5rem;
-  }
 }

@@ -144,7 +144,7 @@ export const Sidebar = () => {
             </div>
             <div className="sidebar__profile-info">
               <p className="sidebar__profile-name">{auth.user?.displayName || 'Utente'}</p>
-              <p className="sidebar__profile-role">Amministratore</p>
+              <p className="sidebar__profile-role">{auth.user?.ruolo || 'Utente'}</p>
             </div>
           </div>
         )}

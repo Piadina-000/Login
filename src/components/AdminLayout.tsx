@@ -6,7 +6,7 @@ import '../styles/afterLogin.css'
 
 /**
  * Layout AdminLayout
- * Fornisce il layout condiviso per tutte le pagine amministrative
+ * Fornisce il layout condiviso per tutte le pagine di amministrazione
  * Contiene la Sidebar e il contenuto principale
  */
 export const AdminLayout = () => {
