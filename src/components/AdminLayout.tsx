@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Sidebar } from './Sidebar'
-import { getAuthResponse } from '../service/service'
+import { getAuthResponse } from '../service/users'
 import '../styles/afterLogin.css'
 
 /**

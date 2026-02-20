@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import '../styles/sidebar.css'
 import type { LoginResponse } from '../types'
-import { clearAuthResponse, getAuthResponse } from '../service/service'
+import { clearAuthResponse, getAuthResponse } from '../service/users'
 
 /**
  * Componente Sidebar Amministrativa

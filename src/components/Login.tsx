@@ -3,7 +3,7 @@ import '../styles/login.css'
 
 import { useNavigate } from 'react-router-dom';
 import type { PostData, LoginResponse } from '../types';
-import { authenticateLocalUser, getAuthResponse, saveAuthResponse } from '../service/service';
+import { authenticateLocalUser, getAuthResponse, saveAuthResponse } from '../service/users';
 
 /**
  * Componente Login

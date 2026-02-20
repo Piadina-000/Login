@@ -3,7 +3,7 @@ import '../styles/amministrazione.css'
 import '../styles/afterLogin.css'
 import { useNavigate } from 'react-router-dom'
 import type { LoginResponse } from '../types'
-import { getAuthResponse } from '../service/service'
+import { getAuthResponse } from '../service/users'
 
 /**
  * Componente Amministrazione (Dashboard)

@@ -47,3 +47,32 @@ export interface AuthResult {
 	response?: LoginResponse // Dati di risposta se ok=true
 	error?: string           // Messaggio di errore se ok=false
 }
+
+/**
+ * Struttura di una bicicletta
+ */
+export interface Bicicletta {
+	id: number
+	name: string
+	category: string
+	price: number
+	stock_quantity: number
+	is_active: boolean
+	image_url: string
+}
+
+/**
+ * Parametri per il fetching dei dati con paginazione
+ */
+export interface FetchDataParams {
+	page: number
+	size: number
+}
+
+/**
+ * Risposta generica dall'API con paginazione
+ */
+export interface ApiResponse<T> {
+	data: T[]
+	hasMore: boolean
+}

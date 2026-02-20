@@ -1,38 +1,20 @@
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import '../styles/listaBici.css'
 import '../styles/afterLogin.css'
-
-// Dati per esempio
-const biciclette = [
-    {
-        id: 1,
-        name: 'Bianchi',
-        category: 'Corsa',
-        price: 3500.00,
-        stock_quantity: 5,
-        is_active: true,
-        image_url: 'https://via.placeholder.com/60'
-    },
-    {
-        id: 2,
-        name: 'Trek',
-        category: 'MTB',
-        price: 1200.00,
-        stock_quantity: 0,
-        is_active: true,
-        image_url: 'https://via.placeholder.com/60'
-    },
-    {
-        id: 3,
-        name: 'Turbo',
-        category: 'E-Bike',
-        price: 2800.00,
-        stock_quantity: 3,
-        is_active: false,
-        image_url: ''
-    },
-];
+import { fetchBiciclette } from '../service/api.ts'
 
 export const ListaBici = () => {
+    const [page, setPage] = useState(1)
+    const pageSize = 20
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['biciclette', page],
+        queryFn: () => fetchBiciclette({ page, size: pageSize })
+    })
+
+    const biciclette = data?.data || []
+    
     return (
         <div className='pagina'>
             <div className='header'>
@@ -41,12 +23,13 @@ export const ListaBici = () => {
             <div className='body'>
                 <div className='body__container'>
                     <div className='listaBici'>
-                        
-                        <p>Gestisci tutte le biciclette disponibili nel sistema.</p>
+                        {isLoading && <p>Caricamento...</p>}
+                        {error && <p style={{ color: 'red' }}>Errore nel caricamento dei dati</p>}
+                        {!isLoading && !error && <p>Gestisci tutte le biciclette disponibili nel sistema.</p>}
                         
                         <div className='listaBici__header'>
                             <h2 className='listaBici__header-title'>Elenco Biciclette</h2>
-                            <button className='listaBici__btn-add'>+ Aggiungi Bicicletta</button>
+                            <button className='listaBici__btn-add' onClick={() => window.location.href = '/aggiungiBici'}>+ Aggiungi Bicicletta</button>
                         </div>
 
                         <div className='listaBici__table-wrapper'>

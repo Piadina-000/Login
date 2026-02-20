@@ -88,6 +88,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: #66666685 0 0 3px;
 }
 
 .sidebar__toggle:hover {
