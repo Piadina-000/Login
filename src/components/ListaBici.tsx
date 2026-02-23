@@ -1,19 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import '../styles/listaBici.css'
 import '../styles/afterLogin.css'
 import { fetchBiciclette } from '../service/api.ts'
+import type { Bicicletta } from '../types'
 
 export const ListaBici = () => {
     const [page, setPage] = useState(1)
+    const [allBiciclette, setAllBiciclette] = useState<Bicicletta[]>([])
+    const [hasMore, setHasMore] = useState(true)
     const pageSize = 20
+    const observerTarget = useRef<HTMLDivElement>(null)
 
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ['biciclette', page],
         queryFn: () => fetchBiciclette({ page, size: pageSize })
     })
 
-    const biciclette = data?.data || []
+    // Accumula i dati dalle varie pagine
+    useEffect(() => {
+        if (data?.data) {
+            setAllBiciclette(prev => (page === 1 ? data.data : [...prev, ...data.data]))
+            setHasMore(data.hasMore)
+        }
+    }, [data, page])
+
+    // infinite scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore && !isLoading) {
+                setPage(prev => prev + 1)
+            }
+        })
+
+        if (observerTarget.current) {
+            observer.observe(observerTarget.current)
+        }
+
+        return () => observer.disconnect()
+    }, [hasMore, isLoading])
     
     return (
         <div className='pagina'>
@@ -23,9 +48,7 @@ export const ListaBici = () => {
             <div className='body'>
                 <div className='body__container'>
                     <div className='listaBici'>
-                        {isLoading && <p>Caricamento...</p>}
-                        {error && <p style={{ color: 'red' }}>Errore nel caricamento dei dati</p>}
-                        {!isLoading && !error && <p>Gestisci tutte le biciclette disponibili nel sistema.</p>}
+                        {allBiciclette.length === 0 && !isLoading && <p>Gestisci tutte le biciclette disponibili nel sistema.</p>}
                         
                         <div className='listaBici__header'>
                             <h2 className='listaBici__header-title'>Elenco Biciclette</h2>
@@ -46,7 +69,7 @@ export const ListaBici = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {biciclette.map((bici) => (
+                                    {allBiciclette.map((bici) => (
                                         <tr key={bici.id}>
                                             <td>
                                                 {bici.image_url ? (
@@ -100,6 +123,12 @@ export const ListaBici = () => {
                                 </tbody>
                             </table>
                         </div>
+
+                        <div ref={observerTarget} style={{ height: '20px', margin: '20px 0' }} />
+                        
+                        {isLoading && page > 1 && (
+                            <p style={{ textAlign: 'center', color: '#666' }}>Caricamento biciclette...</p>
+                        )}
                     </div>
                 </div>
             </div>
