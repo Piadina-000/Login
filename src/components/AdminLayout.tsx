@@ -5,23 +5,27 @@ import { getAuthResponse } from '../service/users'
 import '../styles/afterLogin.css'
 
 /**
- * Layout AdminLayout
- * Fornisce il layout condiviso per tutte le pagine di amministrazione
- * Contiene la Sidebar e il contenuto principale
+ * AdminLayout
+ * Layout condiviso per le pagine dell'area amministrativa.
+ * - Mostra la `Sidebar` laterale
  */
 export const AdminLayout = () => {
   const navigate = useNavigate()
+
+  // Stato di caricamento: vero finché verifichiamo l'autenticazione
   const [isLoading, setIsLoading] = useState(true)
 
   // Verifica che l'utente sia autenticato al caricamento
   useEffect(() => {
     const saved = getAuthResponse()
     if (!saved) {
+      // Nessuna autenticazione trovata => ritorno alla login
       navigate('/')
     }
     setIsLoading(false)
   }, [navigate])
 
+  // Mostra un placeholder di caricamento mentre controlla l'autenticazione
   if (isLoading) {
     return <div className="admin-layout__loading">Caricamento...</div>
   }

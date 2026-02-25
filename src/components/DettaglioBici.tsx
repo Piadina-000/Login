@@ -5,6 +5,11 @@ import { fetchBiciclettaById } from '../service/api'
 import '../styles/dettaglioBici.css'
 import '../styles/afterLogin.css'
 
+/**
+ * Componente DettaglioBici
+ * Mostra i dettagli di una singola bicicletta:
+ * - Recupera i dati via `fetchBiciclettaById` usando React Query
+ */
 export const DettaglioBici = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()

@@ -4,21 +4,42 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createBicicletta } from '../service/api'
 
+/**
+ * Componente AggiungiBici
+ * Pagina con il form per aggiungere una nuova bicicletta al catalogo.
+ * - Gestisce la validazione dei campi e mostra errori all'utente
+ */
 export const AggiungiBici = () => {
 
     const navigate = useNavigate()
+
+    // Indica se il form è in fase di invio per evitare invii duplicati
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // Messaggio di errore da mostrare all'utente (validazione o server)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+    // Categorie consentite per il campo `category`
     const allowedCategories = ['MTB', 'Corsa', 'E-Bike', 'City', 'Gravel']
 
+    /**
+     * handleSubmit
+     * - Previene il comportamento di default del form
+     * - Blocca invii multipli con `isSubmitting`
+     * - Estrae i valori dal form, normalizza e valida i campi
+     * - Effettua la chiamata a `createBicicletta`
+     */
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
+        // Evita invii ripetuti se già in corso
         if (isSubmitting) return
 
+        // Reset degli errori ed entra in stato di invio
         setErrorMessage(null)
         setIsSubmitting(true)
 
+        // Lettura dei valori dal form HTML
         const formData = new FormData(event.currentTarget)
         const name = String(formData.get('name') ?? '').trim()
         const category = String(formData.get('category') ?? '').trim()
@@ -29,6 +50,7 @@ export const AggiungiBici = () => {
         const imageUrl = String(formData.get('image_url') ?? '').trim()
         const isActive = formData.get('is_active') === 'on'
 
+        // Conversione dei valori numerici
         const price = Number(priceValue)
         const cost = costValue === '' ? undefined : Number(costValue)
         const stockQuantity = Number(stockValue)
@@ -69,6 +91,7 @@ export const AggiungiBici = () => {
             return
         }
 
+        // Se è stato fornito un URL, ne verifichiamo la correttezza
         if (imageUrl) {
             try {
                 new URL(imageUrl)
@@ -79,6 +102,7 @@ export const AggiungiBici = () => {
             }
         }
 
+        // Chiamata API per creare la bicicletta
         try {
             await createBicicletta({
                 name,
@@ -91,10 +115,12 @@ export const AggiungiBici = () => {
                 is_active: isActive
             })
 
+            // Al successo, torniamo alla lista delle bici
             navigate('/listaBici')
         } catch (error: any) {
             setErrorMessage(error?.message || 'Errore durante il salvataggio.')
         } finally {
+            // Rimuove lo stato di invio
             setIsSubmitting(false)
         }
     }

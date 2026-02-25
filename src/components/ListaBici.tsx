@@ -6,6 +6,10 @@ import '../styles/afterLogin.css'
 import { fetchBiciclette } from '../service/api.ts'
 import type { Bicicletta } from '../types'
 
+/**
+ * Componente ListaBici
+ * Pagina che elenca le biciclette con infinite scroll
+ */
 export const ListaBici = () => {
     const navigate = useNavigate()
     const [page, setPage] = useState(1)

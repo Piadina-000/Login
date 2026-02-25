@@ -2,6 +2,10 @@ import '../styles/aggiungi-modificaBici.css'
 import '../styles/afterLogin.css'
 import { useNavigate } from 'react-router'
 
+/**
+ * Componente ModificaBici
+ * Pagina per modificare i dettagli di una bicicletta.
+ */
 export const ModificaBici = () => {
 
     const navigate = useNavigate()

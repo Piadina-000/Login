@@ -1,5 +1,6 @@
 import type { FetchDataParams, Bicicletta, ApiResponse } from '../types'
 
+// URL base dell'API mock usata dall'app
 const API_BASE_URL = 'https://shiftcaller.it/api/mockup-bike'
 
 const normalizeBike = (item: any): Bicicletta => {
