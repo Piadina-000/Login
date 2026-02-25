@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import '../styles/listaBici.css'
 import '../styles/afterLogin.css'
@@ -6,6 +7,7 @@ import { fetchBiciclette } from '../service/api.ts'
 import type { Bicicletta } from '../types'
 
 export const ListaBici = () => {
+    const navigate = useNavigate()
     const [page, setPage] = useState(1)
     const [allBiciclette, setAllBiciclette] = useState<Bicicletta[]>([])
     const [hasMore, setHasMore] = useState(true)
@@ -107,7 +109,10 @@ export const ListaBici = () => {
                                             </td>
                                             <td>
                                                 <div className='listaBici__actions'>
-                                                    <button className='listaBici__action-btn listaBici__action-btn--view'>
+                                                    <button 
+                                                        className='listaBici__action-btn listaBici__action-btn--view'
+                                                        onClick={() => navigate(`/dettagli/${bici.id}`)}
+                                                    >
                                                         Visualizza
                                                     </button>
                                                     <button className='listaBici__action-btn listaBici__action-btn--edit'>

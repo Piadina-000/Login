@@ -43,3 +43,29 @@ export const fetchBiciclette = async ({ page, size }: FetchDataParams): Promise<
     throw err
   }
 }
+
+/**
+ * Recupera i dettagli di una singola bicicletta secondo l'ID
+ */
+export const fetchBiciclettaById = async (id: number): Promise<Bicicletta> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/${id}`)
+
+    if (response.status === 404) {
+      throw new Error('Bicicletta non trovata')
+    }
+
+    if (!response.ok) {
+      throw new Error(`Errore server: ${response.status}`)
+    }
+
+    const result: any = await response.json()
+
+    const bikeData = result?.data || result
+
+    return normalizeBike(bikeData)
+  } catch (err: any) {
+    console.error('fetchBiciclettaById error', err)
+    throw err
+  }
+}
