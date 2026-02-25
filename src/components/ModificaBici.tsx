@@ -1,125 +1,27 @@
 import '../styles/aggiungi-modificaBici.css'
 import '../styles/afterLogin.css'
-import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { createBicicletta } from '../service/api'
+import { useNavigate } from 'react-router'
 
-export const AggiungiBici = () => {
+export const ModificaBici = () => {
 
     const navigate = useNavigate()
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
-    const allowedCategories = ['MTB', 'Corsa', 'E-Bike', 'City', 'Gravel']
-
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        if (isSubmitting) return
-
-        setErrorMessage(null)
-        setIsSubmitting(true)
-
-        const formData = new FormData(event.currentTarget)
-        const name = String(formData.get('name') ?? '').trim()
-        const category = String(formData.get('category') ?? '').trim()
-        const description = String(formData.get('description') ?? '').trim()
-        const priceValue = String(formData.get('price') ?? '').trim()
-        const costValue = String(formData.get('cost') ?? '').trim()
-        const stockValue = String(formData.get('stock_quantity') ?? '').trim()
-        const imageUrl = String(formData.get('image_url') ?? '').trim()
-        const isActive = formData.get('is_active') === 'on'
-
-        const price = Number(priceValue)
-        const cost = costValue === '' ? undefined : Number(costValue)
-        const stockQuantity = Number(stockValue)
-
-        if (!name) {
-            setErrorMessage('Il nome e obbligatorio.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!category) {
-            setErrorMessage('La categoria e obbligatoria.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!allowedCategories.includes(category)) {
-            setErrorMessage('La categoria selezionata non e valida.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (Number.isNaN(price) || price <= 0) {
-            setErrorMessage('Il prezzo deve essere un numero maggiore di 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (cost !== undefined && (Number.isNaN(cost) || cost < 0)) {
-            setErrorMessage('Il costo deve essere un numero maggiore o uguale a 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!Number.isInteger(stockQuantity) || stockQuantity < 0) {
-            setErrorMessage('La quantita in stock deve essere un intero maggiore o uguale a 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (imageUrl) {
-            try {
-                new URL(imageUrl)
-            } catch {
-                setErrorMessage('Inserisci un URL valido per l\'immagine.')
-                setIsSubmitting(false)
-                return
-            }
-        }
-
-        try {
-            await createBicicletta({
-                name,
-                category,
-                description: description || undefined,
-                price,
-                cost,
-                stock_quantity: stockQuantity,
-                image_url: imageUrl,
-                is_active: isActive
-            })
-
-            navigate('/listaBici')
-        } catch (error: any) {
-            setErrorMessage(error?.message || 'Errore durante il salvataggio.')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
 
     return (
         <div className='pagina'>
             <div className='header'>
-                <h1>Aggiungi Nuova Bicicletta</h1>
+                <h1>Modifica Bicicletta</h1>
             </div>
             <div className='body'>
                 <div className='body__container'>
                     <div className='aggiungiBici'>
                         
-                        <p>Compila il form per aggiungere una nuova bicicletta al catalogo.</p>
+                        <p>Modifica il form per modificare la bicicletta del catalogo.</p>
                         
-                        <form className='aggiungiBici__form' onSubmit={handleSubmit} noValidate>
-                            {errorMessage && (
-                                <div className='aggiungiBici__form-error'>
-                                    {errorMessage}
-                                </div>
-                            )}
+                        <form className='aggiungiBici__form'>
                             {/* Nome - Obbligatorio */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='name'>
-                                    Nome <span className='required'>*</span>
+                                    Nome 
                                 </label>
                                 <input 
                                     type='text' 
@@ -133,7 +35,7 @@ export const AggiungiBici = () => {
                             {/* Categoria - Obbligatorio */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='category'>
-                                    Categoria <span className='required'>*</span>
+                                    Categoria 
                                 </label>
                                 <select id='category' name='category' required>
                                     <option value=''>Seleziona una categoria</option>
@@ -159,7 +61,7 @@ export const AggiungiBici = () => {
                             <div className='aggiungiBici__form-row'>
                                 <div className='aggiungiBici__form-group'>
                                     <label htmlFor='price'>
-                                        Prezzo (€) <span className='required'>*</span>
+                                        Prezzo (€) 
                                     </label>
                                     <input 
                                         type='number' 
@@ -190,7 +92,7 @@ export const AggiungiBici = () => {
                             {/* Stock Quantity - Obbligatorio */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='stock_quantity'>
-                                    Quantità in Stock <span className='required'>*</span>
+                                    Quantità in Stock 
                                 </label>
                                 <input 
                                     type='number' 
@@ -234,8 +136,8 @@ export const AggiungiBici = () => {
                                 >
                                     Annulla
                                 </button>
-                                <button type='submit' className='aggiungiBici__btn aggiungiBici__btn--primary' disabled={isSubmitting}>
-                                    {isSubmitting ? 'Salvataggio...' : 'Salva Bicicletta'}
+                                <button type='submit' className='aggiungiBici__btn aggiungiBici__btn--primary'>
+                                    Salva modifiche
                                 </button>
                             </div>
                         </form>

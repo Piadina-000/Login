@@ -98,6 +98,14 @@ export const DettaglioBici = () => {
                     </span>
                   </div>
 
+                  {/* Description */}
+                  {bicicletta.description && (
+                    <div className='dettagli__description'>
+                      <label className='dettagli__label'>Descrizione</label>
+                      <p className='dettagli__description-text'>{bicicletta.description}</p>
+                    </div>
+                  )}
+
                   <div className='dettagli__info-grid'>
                     {/* ID */}
                     <div className='dettagli__field'>
@@ -120,17 +128,19 @@ export const DettaglioBici = () => {
                     {/* Stock */}
                     <div className='dettagli__field'>
                       <label className='dettagli__label'>Disponibilità in Stock</label>
-                      <p className={`dettagli__value dettagli__stock ${
-                        bicicletta.stock_quantity === 0 ? 'dettagli__stock--out' :
-                        bicicletta.stock_quantity < 5 ? 'dettagli__stock--low' : ''
-                      }`}>
-                        {bicicletta.stock_quantity} unità
-                      </p>
-                      {bicicletta.stock_quantity === 0 && (
+                      {bicicletta.stock_quantity === 0 ? (
                         <span className='dettagli__warning'>Prodotto esaurito</span>
-                      )}
-                      {bicicletta.stock_quantity < 5 && bicicletta.stock_quantity > 0 && (
-                        <span className='dettagli__warning'>Scorte in esaurimento</span>
+                      ) : (
+                        <>
+                          <p className={`dettagli__value dettagli__stock ${
+                            bicicletta.stock_quantity < 5 ? 'dettagli__stock--low' : ''
+                          }`}>
+                            {bicicletta.stock_quantity} unità
+                          </p>
+                          {bicicletta.stock_quantity < 5 && (
+                            <span className='dettagli__warning'>Scorte in esaurimento</span>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
@@ -147,7 +157,6 @@ export const DettaglioBici = () => {
                       className='dettagli__btn dettagli__btn--delete'
                       onClick={() => {
                         if (confirm('Sei sicuro di voler eliminare questa bicicletta?')) {
-                          // TODO: Implementare eliminazione
                           alert('Eliminazione non ancora implementata')
                         }
                       }}

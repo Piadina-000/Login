@@ -5,6 +5,7 @@ import { Amministrazione } from './components/Amministrazione'
 import { AggiungiBici } from './components/AggiungiBici'
 import { ListaBici } from './components/ListaBici'
 import { DettaglioBici } from './components/DettaglioBici'
+import { ModificaBici } from './components/ModificaBici'
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path='/listaBici' element={<ListaBici />} />
           <Route path='/aggiungiBici' element={<AggiungiBici />} />
           <Route path='/dettagli/:id' element={<DettaglioBici />} />
+          <Route path='/modificaBici/:id' element={<ModificaBici />} />
         </Route>
       </Routes>
     </div>

@@ -127,6 +127,24 @@
   color: #ffffff;
 }
 
+/* Description */
+.dettagli__description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background-color: #2a3840;
+  border-radius: 8px;
+  border-left: 4px solid #5cb3ff;
+}
+
+.dettagli__description-text {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 /* Info Grid */
 .dettagli__info-grid {
   display: grid;

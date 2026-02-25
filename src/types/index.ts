@@ -56,9 +56,11 @@ export interface Bicicletta {
 	name: string
 	category: string
 	price: number
+	cost?: number
 	stock_quantity: number
 	is_active: boolean
 	image_url: string
+	description?: string
 }
 
 /**

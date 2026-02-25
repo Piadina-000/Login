@@ -88,15 +88,15 @@ export const ListaBici = () => {
                                             <td>{bici.category}</td>
                                             <td className='listaBici__price'>€ {bici.price.toFixed(2)}</td>
                                             <td>
-                                                <span className={`listaBici__stock ${
-                                                    bici.stock_quantity === 0 ? 'listaBici__stock--out' :
-                                                    bici.stock_quantity < 5 ? 'listaBici__stock--low' : ''
-                                                }`}>
-                                                    {bici.stock_quantity}
-                                                </span>
-                                                {bici.stock_quantity === 0 && (
+                                                {bici.stock_quantity === 0 ? (
                                                     <span className='listaBici__badge listaBici__badge--esaurito'>
                                                         Esaurito
+                                                    </span>
+                                                ) : (
+                                                    <span className={`listaBici__stock ${
+                                                        bici.stock_quantity < 5 ? 'listaBici__stock--low' : ''
+                                                    }`}>
+                                                        {bici.stock_quantity}
                                                     </span>
                                                 )}
                                             </td>
@@ -115,10 +115,18 @@ export const ListaBici = () => {
                                                     >
                                                         Visualizza
                                                     </button>
-                                                    <button className='listaBici__action-btn listaBici__action-btn--edit'>
+                                                    <button className='listaBici__action-btn listaBici__action-btn--edit'
+                                                        onClick={() => navigate(`/modificaBici/${bici.id}`)}
+                                                    >
                                                         Modifica
                                                     </button>
-                                                    <button className='listaBici__action-btn listaBici__action-btn--delete'>
+                                                    <button className='listaBici__action-btn listaBici__action-btn--delete'
+                                                        onClick={() => {
+                                                            if (confirm('Sei sicuro di voler eliminare questa bicicletta?')) {
+                                                            alert('Eliminazione non ancora implementata')
+                                                            }
+                                                        }}
+                                                    >
                                                         Elimina
                                                     </button>
                                                 </div>
