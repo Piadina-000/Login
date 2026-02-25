@@ -58,7 +58,7 @@ export const ListaBici = () => {
                         
                         <div className='listaBici__header'>
                             <h2 className='listaBici__header-title'>Elenco Biciclette</h2>
-                            <button className='listaBici__btn-add' onClick={() => window.location.href = '/aggiungiBici'}>+ Aggiungi Bicicletta</button>
+                            <button className='listaBici__btn-add' onClick={() => navigate('/aggiungiBici')}>+ Aggiungi Bicicletta</button>
                         </div>
 
                         <div className='listaBici__table-wrapper'>
