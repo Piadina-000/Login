@@ -3,6 +3,7 @@ import '../styles/afterLogin.css'
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createBicicletta } from '../service/api'
+import { parseBikeForm, validateBikeForm } from '../utils/bikeForm'
 
 /**
  * Componente AggiungiBici
@@ -18,9 +19,6 @@ export const AggiungiBici = () => {
 
     // Messaggio di errore da mostrare all'utente (validazione o server)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
-    // Categorie consentite per il campo `category`
-    const allowedCategories = ['MTB', 'Corsa', 'E-Bike', 'City', 'Gravel']
 
     /**
      * handleSubmit
@@ -39,80 +37,27 @@ export const AggiungiBici = () => {
         setErrorMessage(null)
         setIsSubmitting(true)
 
-        // Lettura dei valori dal form HTML
         const formData = new FormData(event.currentTarget)
-        const name = String(formData.get('name') ?? '').trim()
-        const category = String(formData.get('category') ?? '').trim()
-        const description = String(formData.get('description') ?? '').trim()
-        const priceValue = String(formData.get('price') ?? '').trim()
-        const costValue = String(formData.get('cost') ?? '').trim()
-        const stockValue = String(formData.get('stock_quantity') ?? '').trim()
-        const imageUrl = String(formData.get('image_url') ?? '').trim()
-        const isActive = formData.get('is_active') === 'on'
+        const parsed = parseBikeForm(formData)
+        const validationError = validateBikeForm(parsed)
 
-        // Conversione dei valori numerici
-        const price = Number(priceValue)
-        const cost = costValue === '' ? undefined : Number(costValue)
-        const stockQuantity = Number(stockValue)
-
-        if (!name) {
-            setErrorMessage('Il nome e obbligatorio.')
+        if (validationError) {
+            setErrorMessage(validationError)
             setIsSubmitting(false)
             return
-        }
-
-        if (!category) {
-            setErrorMessage('La categoria e obbligatoria.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!allowedCategories.includes(category)) {
-            setErrorMessage('La categoria selezionata non e valida.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (Number.isNaN(price) || price <= 0) {
-            setErrorMessage('Il prezzo deve essere un numero maggiore di 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (cost !== undefined && (Number.isNaN(cost) || cost < 0)) {
-            setErrorMessage('Il costo deve essere un numero maggiore o uguale a 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!Number.isInteger(stockQuantity) || stockQuantity < 0) {
-            setErrorMessage('La quantita in stock deve essere un intero maggiore o uguale a 0.')
-            setIsSubmitting(false)
-            return
-        }
-
-        // Se è stato fornito un URL, ne verifichiamo la correttezza
-        if (imageUrl) {
-            try {
-                new URL(imageUrl)
-            } catch {
-                setErrorMessage('Inserisci un URL valido per l\'immagine.')
-                setIsSubmitting(false)
-                return
-            }
         }
 
         // Chiamata API per creare la bicicletta
         try {
             await createBicicletta({
-                name,
-                category,
-                description: description || undefined,
-                price,
-                cost,
-                stock_quantity: stockQuantity,
-                image_url: imageUrl,
-                is_active: isActive
+                name: parsed.name,
+                category: parsed.category,
+                description: parsed.description || undefined,
+                price: parsed.price,
+                cost: parsed.cost,
+                stock_quantity: parsed.stockQuantity,
+                image_url: parsed.imageUrl,
+                is_active: parsed.isActive
             })
 
             // Al successo, torniamo alla lista delle bici

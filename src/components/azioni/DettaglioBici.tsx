@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { fetchBiciclettaById } from '../service/api'
-import '../styles/dettaglioBici.css'
-import '../styles/afterLogin.css'
+import { fetchBiciclettaById } from '../../service/api'
+import '../../styles/dettaglioBici.css'
+import '../../styles/afterLogin.css'
 
 /**
  * Componente DettaglioBici

@@ -78,3 +78,20 @@ export interface ApiResponse<T> {
 	data: T[]
 	hasMore: boolean
 }
+
+/**
+ * Dati form bicicletta
+ */
+export interface ParsedBikeForm {
+	name: string
+	category: string
+	description: string
+	priceValue: string
+	costValue: string
+	stockValue: string
+	imageUrl: string
+	isActive: boolean
+	price: number
+	cost?: number
+	stockQuantity: number
+}

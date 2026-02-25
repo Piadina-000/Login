@@ -4,8 +4,8 @@ import { AdminLayout } from './components/AdminLayout'
 import { Amministrazione } from './components/Amministrazione'
 import { AggiungiBici } from './components/AggiungiBici'
 import { ListaBici } from './components/ListaBici'
-import { DettaglioBici } from './components/DettaglioBici'
-import { ModificaBici } from './components/ModificaBici'
+import { DettaglioBici } from './components/azioni/DettaglioBici'
+import { ModificaBici } from './components/azioni/ModificaBici'
 import './App.css'
 
 function App() {

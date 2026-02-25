@@ -1,14 +1,111 @@
-import '../styles/aggiungi-modificaBici.css'
-import '../styles/afterLogin.css'
-import { useNavigate } from 'react-router'
+import '../../styles/aggiungi-modificaBici.css'
+import '../../styles/afterLogin.css'
+import { useState, type FormEvent } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { fetchBiciclettaById, fetchBiciclettaUpdate } from '../../service/api'
+import type { Bicicletta } from '../../types'
+import { parseBikeForm, validateBikeForm } from '../../utils/bikeForm'
 
 /**
  * Componente ModificaBici
  * Pagina per modificare i dettagli di una bicicletta.
  */
 export const ModificaBici = () => {
-
+    const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
+
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+    // Carica i dati correnti della bicicletta da modificare.
+    const { data: bicicletta, isLoading, error } = useQuery({
+        queryKey: ['bicicletta', id],
+        queryFn: () => {
+            if (!id) throw new Error('ID non valido')
+            return fetchBiciclettaById(Number(id))
+        },
+        enabled: !!id,
+        retry: false
+    })
+
+    // Costruisce un payload solo con i campi realmente cambiati.
+    const buildUpdatePayload = (parsed: ReturnType<typeof parseBikeForm>, current: Bicicletta): Partial<Bicicletta> => {
+        const payload: Partial<Bicicletta> = {}
+
+        if (parsed.name !== current.name) {
+            payload.name = parsed.name
+        }
+
+        if (parsed.category !== current.category) {
+            payload.category = parsed.category
+        }
+
+        const currentDescription = current.description ?? ''
+        if (parsed.description !== currentDescription) {
+            payload.description = parsed.description === '' ? undefined : parsed.description
+        }
+
+        if (!Number.isNaN(parsed.price) && parsed.price !== current.price) {
+            payload.price = parsed.price
+        }
+
+        const currentCost = current.cost ?? undefined
+        if (parsed.cost !== currentCost) {
+            payload.cost = parsed.cost
+        }
+
+        if (!Number.isNaN(parsed.stockQuantity) && parsed.stockQuantity !== current.stock_quantity) {
+            payload.stock_quantity = parsed.stockQuantity
+        }
+
+        if (parsed.imageUrl !== current.image_url) {
+            payload.image_url = parsed.imageUrl
+        }
+
+        if (parsed.isActive !== current.is_active) {
+            payload.is_active = parsed.isActive
+        }
+
+        return payload
+    }
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        if (isSubmitting || !bicicletta || !id) return
+
+        setErrorMessage(null)
+        setIsSubmitting(true)
+
+        // Validazione condivise con il form di aggiunta.
+        const formData = new FormData(event.currentTarget)
+        const parsed = parseBikeForm(formData)
+        const validationError = validateBikeForm(parsed)
+
+        if (validationError) {
+            setErrorMessage(validationError)
+            setIsSubmitting(false)
+            return
+        }
+
+        const payload = buildUpdatePayload(parsed, bicicletta)
+
+        if (Object.keys(payload).length === 0) {
+            setErrorMessage('Nessuna modifica da salvare.')
+            setIsSubmitting(false)
+            return
+        }
+
+        try {
+            await fetchBiciclettaUpdate(Number(id), payload)
+            navigate('/listaBici')
+        } catch (err: any) {
+            setErrorMessage(err?.message || 'Errore durante il salvataggio.')
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
 
     return (
         <div className='pagina'>
@@ -20,8 +117,24 @@ export const ModificaBici = () => {
                     <div className='aggiungiBici'>
                         
                         <p>Modifica il form per modificare la bicicletta del catalogo.</p>
-                        
-                        <form className='aggiungiBici__form'>
+
+                        {isLoading && (
+                            <div className='aggiungiBici__form-info'>Caricamento dati bicicletta...</div>
+                        )}
+
+                        {error && (
+                            <div className='aggiungiBici__form-error'>
+                                {error instanceof Error ? error.message : 'Errore nel caricamento.'}
+                            </div>
+                        )}
+
+                        {bicicletta && (
+                        <form className='aggiungiBici__form' onSubmit={handleSubmit} noValidate>
+                            {errorMessage && (
+                                <div className='aggiungiBici__form-error'>
+                                    {errorMessage}
+                                </div>
+                            )}
                             {/* Nome - Obbligatorio */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='name'>
@@ -32,6 +145,7 @@ export const ModificaBici = () => {
                                     id='name' 
                                     name='name' 
                                     placeholder='Inserisci il nome della bicicletta'
+                                    defaultValue={bicicletta.name}
                                     required 
                                 />
                             </div>
@@ -41,7 +155,7 @@ export const ModificaBici = () => {
                                 <label htmlFor='category'>
                                     Categoria 
                                 </label>
-                                <select id='category' name='category' required>
+                                <select id='category' name='category' defaultValue={bicicletta.category} required>
                                     <option value=''>Seleziona una categoria</option>
                                     <option value='MTB'>MTB</option>
                                     <option value='Corsa'>Corsa</option>
@@ -58,6 +172,7 @@ export const ModificaBici = () => {
                                     id='description' 
                                     name='description' 
                                     placeholder='Inserisci una descrizione dettagliata della bicicletta'
+                                    defaultValue={bicicletta.description ?? ''}
                                 />
                             </div>
 
@@ -74,6 +189,7 @@ export const ModificaBici = () => {
                                         placeholder='0.00'
                                         min='0'
                                         step='0.01'
+                                        defaultValue={bicicletta.price}
                                         required 
                                     />
                                     <span className='aggiungiBici__form-help'>Prezzo di vendita al pubblico</span>
@@ -88,6 +204,7 @@ export const ModificaBici = () => {
                                         placeholder='0.00'
                                         min='0'
                                         step='0.01'
+                                        defaultValue={bicicletta.cost ?? ''}
                                     />
                                     <span className='aggiungiBici__form-help'>Costo di acquisto</span>
                                 </div>
@@ -105,6 +222,7 @@ export const ModificaBici = () => {
                                     placeholder='0'
                                     min='0'
                                     step='1'
+                                    defaultValue={bicicletta.stock_quantity}
                                     required 
                                 />
                                 <span className='aggiungiBici__form-help'>Numero di unità disponibili</span>
@@ -118,6 +236,7 @@ export const ModificaBici = () => {
                                     id='image_url' 
                                     name='image_url' 
                                     placeholder='https://esempio.com/immagine.jpg'
+                                    defaultValue={bicicletta.image_url}
                                 />
                                 <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
                             </div>
@@ -128,7 +247,7 @@ export const ModificaBici = () => {
                                     type='checkbox' 
                                     id='is_active' 
                                     name='is_active' 
-                                    defaultChecked 
+                                    defaultChecked={bicicletta.is_active}
                                 />
                                 <label htmlFor='is_active'>Bicicletta attiva e visibile nel catalogo</label>
                             </div>
@@ -145,6 +264,7 @@ export const ModificaBici = () => {
                                 </button>
                             </div>
                         </form>
+                        )}
                     </div>
                 </div>
             </div>
