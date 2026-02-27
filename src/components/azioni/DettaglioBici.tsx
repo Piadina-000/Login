@@ -11,15 +11,32 @@ import '../../styles/afterLogin.css'
 
 /**
  * Componente DettaglioBici
- * Mostra i dettagli di una singola bicicletta:
- * - Recupera i dati via `fetchBiciclettaById` usando React Query
+ * 
+ * Mostra i dettagli completi di una singola bicicletta selezionata.
+ * 
+ * Funzionalità principali:
+ * - Recupera i dati della bicicletta tramite ID usando React Query
+ * - Gestisce il soft delete (disattivazione) e hard delete (eliminazione definitiva)
+ * - Permette il ripristino di biciclette disattivate
+ * - Gestisce gli stati di errore (404, errori generici)
+ * - Mostra informazioni della bicicletta: immagine, nome, categoria, prezzo, stock
+ * - Aggiorna automaticamente la cache di React Query dopo le operazioni
  */
 export const DettaglioBici = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  
+  // Stato per tracciare se la bicicletta non è stata trovata (404)
   const [notFound, setNotFound] = useState(false)
 
+  /**
+   * Aggiorna la cache della lista biciclette dopo un'operazione
+   * Modifica lo stato is_active della bicicletta nella cache senza ricaricare i dati
+   * 
+   * @param bikeId - ID della bicicletta da aggiornare
+   * @param isActive - Nuovo stato di attivazione
+   */
   const updateListCache = (bikeId: number, isActive: boolean) => {
     queryClient.setQueriesData<ApiResponse<Bicicletta>>(
       { queryKey: ['biciclette'] },
@@ -36,6 +53,8 @@ export const DettaglioBici = () => {
     )
   }
 
+  // Query per recuperare i dati della bicicletta dal server
+  // Disabilitata se l'ID non è presente
   const { data: bicicletta, isLoading, error } = useQuery({
     queryKey: ['bicicletta', id],
     queryFn: () => {
@@ -46,7 +65,10 @@ export const DettaglioBici = () => {
     retry: false
   })
 
-  // Gestire l'errore 404
+  /**
+   * Errori 404
+   * Controlla se l'errore contiene 'non trovata' o '404' e imposta lo stato notFound
+   */
   useEffect(() => {
     if (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
@@ -56,6 +78,9 @@ export const DettaglioBici = () => {
     }
   }, [error])
 
+  /**
+   * Hook per il soft delete (disattivazione) della bicicletta
+   */
   const { deleteError, isDeleting, handleDelete } = useSoftDeleteBicicletta({
     onSuccess: () => {
       const bikeId = Number(id)
@@ -65,6 +90,9 @@ export const DettaglioBici = () => {
     }
   })
 
+  /**
+   * Hook per l'hard delete (eliminazione definitiva) della bicicletta
+   */
   const {
     deleteError: hardDeleteError,
     isDeleting: isHardDeleting,
@@ -73,6 +101,9 @@ export const DettaglioBici = () => {
     onSuccess: () => navigate('/listaBici')
   })
 
+  /**
+   * Hook per il ripristino di una bicicletta disattivata
+   */
   const {
     restoreError,
     isRestoring,
@@ -125,6 +156,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
+          {/* Errore soft delete */}
           {deleteError && (
             <div className='dettagli__error'>
               <h2>Errore Eliminazione</h2>
@@ -132,6 +164,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
+          {/* Errore hard delete */}
           {hardDeleteError && (
             <div className='dettagli__error'>
               <h2>Errore Eliminazione Definitiva</h2>
@@ -139,6 +172,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
+          {/* Errore ripristino */}
           {restoreError && (
             <div className='dettagli__error'>
               <h2>Errore Ripristino</h2>
@@ -146,7 +180,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
-          {/* Bicicletta non visibile */}
+          {/* Schermata per bicicletta disattivata - mostra opzioni di ripristino ed eliminazione */}
           {bicicletta && !isLoading && !error && !bicicletta.is_active && (
             <div className='dettagli__error dettagli__error--404'>
               <h2>Bicicletta Non Visibile</h2>
@@ -170,7 +204,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
-          {/* Details */}
+          {/* Visualizzazione completa dei dettagli della bicicletta attiva */}
           {bicicletta && !isLoading && !error && bicicletta.is_active && (
             <div className='dettagli__container'>
               <div className='dettagli__row'>

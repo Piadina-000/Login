@@ -6,16 +6,33 @@ import { clearAuthResponse, getAuthResponse } from '../service/users'
 
 /**
  * Componente Sidebar Amministrativa
- * Navigazione per il pannello admin
+ * 
+ * Barra laterale di navigazione per il pannello di amministrazione.
+ * 
+ * Funzionalità principali:
+ * - Navigazione tra le sezioni principali (Dashboard, Biciclette)
+ * - Sottomenu espandibile per la sezione Biciclette
+ * - Profilo utente con informazioni dal localStorage
+ * - Pulsante di logout
+ * - Gestione autenticazione con reindirizzamento al login se necessario
  */
 export const Sidebar = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  
+  // Stato autenticazione recuperato dal localStorage
   const [auth, setAuth] = useState<LoginResponse | null>(() => getAuthResponse())
+  
+  // Stato per controllare se la sidebar è collassata
   const [isCollapsed, setIsCollapsed] = useState(true)
+  
+  // Stato per mostrare/nascondere il sottomenu Biciclette
   const [showBiciMenu, setShowBiciMenu] = useState(false)
 
-  // Verifica autenticazione
+  /**
+   * Verifica l'autenticazione all'avvio del componente
+   * Se non c'è un utente autenticato, reindirizza alla pagina di login
+   */
   useEffect(() => {
     const saved = getAuthResponse()
     if (!saved) {
@@ -26,7 +43,10 @@ export const Sidebar = () => {
   }, [navigate])
 
   /**
-   * Determina se una rotta è attiva
+   * Determina se una rotta specifica è attiva
+   * 
+   * @param path - Percorso da verificare
+   * @returns true se il percorso corrisponde alla location attuale
    */
   const isActive = (path: string): boolean => {
     return location.pathname === path
@@ -34,13 +54,17 @@ export const Sidebar = () => {
 
   /**
    * Determina se la sezione Biciclette è attiva
+   * Controlla se l'utente si trova in una delle pagine relative alle biciclette
+   * 
+   * @returns true se si è nella sezione lista o aggiungi bicicletta
    */
   const isBiciActive = (): boolean => {
     return location.pathname === '/listaBici' || location.pathname === '/aggiungiBici'
   }
 
   /**
-   * Gestisce il logout
+   * Gestisce il logout dell'utente
+   * Pulisce i dati di autenticazione dal localStorage e reindirizza al login
    */
   const handleLogout = () => {
     clearAuthResponse()
@@ -48,7 +72,10 @@ export const Sidebar = () => {
   }
 
   /**
-   * Gestisce la navigazione verso un percorso
+   * Gestisce la navigazione verso un percorso specifico
+   * Chiude automaticamente la sidebar
+   * 
+   * @param path - Percorso di destinazione
    */
   const handleNavigate = (path: string) => {
     navigate(path)
@@ -82,9 +109,9 @@ export const Sidebar = () => {
           </button>
         </div>
 
-      {/* Navigazione principale */}
+      {/* Menu di navigazione principale */}
       <nav className="sidebar__nav">
-        {/* Dashboard */}
+        {/* Sezione Dashboard */}
         <div className="sidebar__section">
           <button
             className={`sidebar__item ${isActive('/admin') ? 'sidebar__item--active' : ''}`}
@@ -95,7 +122,7 @@ export const Sidebar = () => {
           </button>
         </div>
 
-        {/* Biciclette */}
+        {/* Sezione Biciclette con sottomenu */}
         <div className="sidebar__section">
           <button
             className={`sidebar__item sidebar__item--parent ${isBiciActive() ? 'sidebar__item--active' : ''}`}
@@ -112,7 +139,7 @@ export const Sidebar = () => {
             )}
           </button>
 
-          {/* Sottomenu Biciclette */}
+          {/* Sottomenu Biciclette - visibile solo se sidebar non collassata */}
           {!isCollapsed && (
             <div className={`sidebar__submenu ${showBiciMenu ? 'sidebar__submenu--open' : ''}`}>
               <button
@@ -135,8 +162,9 @@ export const Sidebar = () => {
         </div>
       </nav>
 
-      {/* Footer Sidebar - Profilo e Logout */}
+      {/* Footer con profilo utente e pulsante logout */}
       <div className="sidebar__footer">
+        {/* Informazioni profilo utente - visibili solo se sidebar aperta */}
         {!isCollapsed && auth && (
           <div className="sidebar__profile">
             <div className="sidebar__profile-avatar">

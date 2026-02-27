@@ -1,4 +1,7 @@
 /* Dettagli Bicicletta - Container */
+/* DETTAGLI BICICLETTA - Pagina dettagli singola bike */
+
+/* Container wrapper con dimensioni specifiche */
 .body__container:has(.dettagli__container) {
   width: min(90vw, 1200px);
   max-width: 90vw;
@@ -6,6 +9,8 @@
   overflow-y: visible;
 }
 
+/* NAVIGAZIONE */
+/* Pulsante indietro */
 .dettagli__btn-back {
   display: inline-flex;
   align-items: center;
@@ -28,6 +33,7 @@
   transform: translate(-1px);
 }
 
+/*  LAYOUT PRINCIPALE */
 /* Container principale */
 .dettagli__container {
   width: 100%;
@@ -37,6 +43,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Grid a 2 colonne - immagine e info */
 .dettagli__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -51,6 +58,7 @@
   }
 }
 
+/* COLONNA IMMAGINE */
 /* Colonna Immagine */
 .dettagli__col--image {
   display: flex;
@@ -59,6 +67,7 @@
   align-self: flex-start;
 }
 
+/* Immagine della bicicletta */
 .dettagli__image {
   width: 100%;
   max-width: 500px;
@@ -68,6 +77,7 @@
   object-fit: contain;
 }
 
+/* Placeholder quando immagine non disponibile */
 .dettagli__image-placeholder {
   width: 100%;
   max-width: 400px;
@@ -84,6 +94,7 @@
   padding: 20px;
 }
 
+/* COLONNA INFORMAZIONI */
 /* Colonna Info */
 .dettagli__col--info {
   display: flex;
@@ -92,6 +103,7 @@
   justify-content: center;
 }
 
+/* Header con nome e badge stato */
 .dettagli__header {
   display: flex;
   align-items: center;
@@ -99,6 +111,7 @@
   margin-bottom: 8px;
 }
 
+/* Titolo - Nome della bicicletta */
 .dettagli__title {
   margin: 0;
   color: #ffffff;
@@ -106,6 +119,7 @@
   font-weight: 700;
 }
 
+/* Badge di stato - Attiva/Inattiva */
 .dettagli__badge {
   display: inline-flex;
   align-items: center;
@@ -127,6 +141,7 @@
   color: #ffffff;
 }
 
+/* SEZIONE DESCRIZIONE */
 /* Description */
 .dettagli__description {
   display: flex;
@@ -138,6 +153,7 @@
   border-left: 4px solid #5cb3ff;
 }
 
+/* Testo descrizione */
 .dettagli__description-text {
   margin: 0;
   color: #e0e0e0;
@@ -145,6 +161,7 @@
   line-height: 1.6;
 }
 
+/* GRID DI INFORMAZIONI */
 /* Info Grid */
 .dettagli__info-grid {
   display: grid;
@@ -162,12 +179,14 @@
   }
 }
 
+/* Singolo campo info */
 .dettagli__field {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* Label per il campo */
 .dettagli__label {
   color: #7a8890;
   font-size: 0.85rem;
@@ -176,6 +195,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Valore del campo */
 .dettagli__value {
   margin: 0;
   color: #ffffff;
@@ -183,12 +203,14 @@
   font-weight: 500;
 }
 
+/* Prezzo - stile speciale */
 .dettagli__price {
   color: #5cb3ff;
   font-size: 1.3rem;
   font-weight: 700;
 }
 
+/* Stock disponibile */
 .dettagli__stock {
   display: flex;
   align-items: center;
@@ -199,14 +221,17 @@
   font-weight: 600;
 }
 
+/* Stock basso - colore warning */
 .dettagli__stock--low {
   color: #ff9800;
 }
 
+/* Stock esaurito */
 .dettagli__stock--out {
   color: #f44336;
 }
 
+/* Warning badge - scorte basse */
 .dettagli__warning {
   display: inline-block;
   margin-top: 6px;
@@ -218,10 +243,12 @@
   font-weight: 600;
 }
 
+/* Warning critico */
 .dettagli__warning.critical {
   background-color: #f44336;
 }
 
+/* PULSANTI DI AZIONE */
 /* Action Buttons */
 .dettagli__actions {
   display: flex;
@@ -230,6 +257,7 @@
   border-top: 1px solid #4a5861;
 }
 
+/* Pulsante generico */
 .dettagli__btn {
   flex: 1;
   padding: 12px 20px;
@@ -243,6 +271,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Pulsante modifica */
 .dettagli__btn--edit {
   background-color: #5cb3ff;
   color: #0b3550;
@@ -254,6 +283,7 @@
   box-shadow: 0 2px 6px rgba(92, 179, 255, 0.3);
 }
 
+/* Pulsante ripristino */
 .dettagli__btn--restore {
   background-color: #4caf50;
   color: #ffffff;
@@ -270,6 +300,7 @@
   cursor: not-allowed;
 }
 
+/* Pulsante eliminazione */
 .dettagli__btn--delete {
   background-color: #f44336;
   color: #ffffff;
@@ -286,6 +317,7 @@
   cursor: not-allowed;
 }
 
+/* STATI DI ERRORE E CARICAMENTO */
 /* Error States */
 .dettagli__loading,
 .dettagli__error {
@@ -298,12 +330,14 @@
   padding: 40px;
 }
 
+/* Contenitore errore */
 .dettagli__error {
   background-color: #3a4850;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Errore 404 - stile speciale */
 .dettagli__error--404 {
   background: linear-gradient(135deg, #3a4850 0%, #2a3840 100%);
 }
@@ -313,6 +347,7 @@
   50% { transform: translateY(-10px); }
 }
 
+/* Titolo errore */
 .dettagli__error h2 {
   margin: 0 0 12px 0;
   color: #ffffff;
@@ -320,6 +355,7 @@
   font-weight: 700;
 }
 
+/* Testo errore */
 .dettagli__error p {
   margin: 0 0 24px 0;
   color: #e0e0e0;
@@ -327,6 +363,7 @@
   line-height: 1.5;
 }
 
+/* Testo caricamento */
 .dettagli__loading p {
   color: #e0e0e0;
   font-size: 1.1rem;

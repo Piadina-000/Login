@@ -1,3 +1,4 @@
+/* Variabili globali e stili base */
 .root {
   height: 100vh;
   width: 100vw;
@@ -12,6 +13,7 @@
   --text: #000000;
 }
 
+/* Layout principale - pagina */
 .pagina {
   display: flex;
   flex-direction: column;
@@ -24,6 +26,7 @@
 
 
 
+/* Header - sezione superiore con titolo */
 .header {
   display: flex;
   justify-content: space-between;
@@ -41,6 +44,7 @@
 }
 
 
+/* Body - area principale del contenuto */
 .body {
   flex: 1 1 auto; 
   background-color: #ffffff;
@@ -55,6 +59,7 @@
 }
 
 
+/* Body container */
 .body__container {
   display: flex;
   flex-direction: column;

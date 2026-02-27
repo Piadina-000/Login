@@ -1,3 +1,4 @@
+/* VARIABILI CSS GLOBALI */
 :root{
   --bg: #c5f5d9;
   --card: #ffffff;
@@ -9,6 +10,7 @@
 }
 
 
+/* STILI BASE */
 /* basi*/
 body{
   margin: 0;
@@ -16,6 +18,7 @@ body{
   color: var(--text);
 }
 
+/* LOGIN BOX - Contenitore principale */
 .Login{
   position: absolute;
   top: 50%;
@@ -27,6 +30,7 @@ body{
   padding: 24px;
 }
 
+/* Box login con sfondo */
 .LoginBox{
   margin: 0 auto;
   flex: 420px;
@@ -46,6 +50,7 @@ body{
   background-position: center;
 }
 
+/* Body del login */
 .LoginBody{
   height: 100%;
   width: 40%;
@@ -58,6 +63,7 @@ body{
   align-items: start;
 }
 
+/* HEADER TOP - Logo e language select */
 /* top header */
 .TopHeading{
   display: flex;
@@ -90,6 +96,7 @@ body{
   color: var(--text);
 }
 
+/* LOGIN HEADER - Titolo e sottotitolo */
 /* header */
 .LoginHeader{
   display: flex;
@@ -135,6 +142,7 @@ body{
   gap: 14px;
 }
 
+/* Input email e password */
 .email,
 .password{
   width: 100%;
@@ -149,11 +157,13 @@ body{
   transition: box-shadow .12s ease, border-color .12s ease;
 }
 
+/* Placeholder hidden text */
 .email::placeholder,
 .password::placeholder{
   color: #9aa4b2;
 }
 
+/* Focus state input */
 .email:focus-visible,
 .password:focus-visible{
   outline: none;
@@ -161,6 +171,7 @@ body{
   box-shadow: 0 0 0 4px #b4f8d1;
 }
 
+/* PULSANTE SUBMIT */
 /* submit button */
 .submitButton{
   width: 100%;
@@ -196,6 +207,7 @@ body{
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.1);
 }
 
+/* Messaggio errore principale */
 .error-message {
   display: flex;
   align-items: center;
@@ -379,6 +391,7 @@ body{
   z-index: 0;
 }
 
+/* Submit button disabled */
 .submitButton[disabled]{
   opacity: 0.6;
   cursor: not-allowed;

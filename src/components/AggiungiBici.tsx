@@ -7,47 +7,60 @@ import { parseBikeForm, validateBikeForm } from '../utils/bikeForm'
 
 /**
  * Componente AggiungiBici
- * Pagina con il form per aggiungere una nuova bicicletta al catalogo.
- * - Gestisce la validazione dei campi e mostra errori all'utente
+ * 
+ * Pagina con form per aggiungere una nuova bicicletta al catalogo.
+ * 
+ * Funzionalità principali:
+ * - Form con tutti i campi necessari per creare una bicicletta
+ * - Validazione dei campi obbligatori
+ * - Gestione stati di invio per evitare duplicazioni
+ * - Mostra messaggi di errore di validazione o server
+ * - Reindirizzamento automatico alla lista dopo il salvataggio
  */
 export const AggiungiBici = () => {
 
     const navigate = useNavigate()
 
-    // Indica se il form è in fase di invio per evitare invii duplicati
+    // Stato per bloccare invii multipli durante il salvataggio
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    // Messaggio di errore da mostrare all'utente (validazione o server)
+    // Messaggi di errore da mostrare all'utente (validazione o errori server)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
     /**
-     * handleSubmit
-     * - Previene il comportamento di default del form
-     * - Blocca invii multipli con `isSubmitting`
-     * - Estrae i valori dal form, normalizza e valida i campi
-     * - Effettua la chiamata a `createBicicletta`
+     * Gestisce l'invio del form di aggiunta bicicletta
+     * 
+     * 1. Previene il comportamento di default del form
+     * 2. Blocca invii multipli controllando isSubmitting
+     * 3. Estrae i valori dal FormData
+     * 4. Normalizza e valida i campi usando parseBikeForm e validateBikeForm
+     * 5. Se valido, effettua la chiamata API createBicicletta
+     * 6. In caso di successo, reindirizza alla lista biciclette
+     * 7. In caso di errore, mostra il messaggio all'utente
      */
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        // Evita invii ripetuti se già in corso
+        // Evita invii duplicati se già in corso
         if (isSubmitting) return
 
-        // Reset degli errori ed entra in stato di invio
+        // Reset errori precedenti e avvia stato di invio
         setErrorMessage(null)
         setIsSubmitting(true)
 
+        // Estrae e valida i dati del form
         const formData = new FormData(event.currentTarget)
         const parsed = parseBikeForm(formData)
         const validationError = validateBikeForm(parsed)
 
+        // Se la validazione fallisce, mostra l'errore e termina
         if (validationError) {
             setErrorMessage(validationError)
             setIsSubmitting(false)
             return
         }
 
-        // Chiamata API per creare la bicicletta
+        // Chiamata API per creare la nuova bicicletta
         try {
             await createBicicletta({
                 name: parsed.name,
@@ -60,12 +73,13 @@ export const AggiungiBici = () => {
                 is_active: parsed.isActive
             })
 
-            // Al successo, torniamo alla lista delle bici
+            // Successo: reindirizza alla lista delle biciclette
             navigate('/listaBici')
         } catch (error: any) {
+            // Gestione errori server
             setErrorMessage(error?.message || 'Errore durante il salvataggio.')
         } finally {
-            // Rimuove lo stato di invio
+            // Rimuove lo stato di invio in entrambi i casi (successo/errore)
             setIsSubmitting(false)
         }
     }
@@ -82,6 +96,7 @@ export const AggiungiBici = () => {
                         <p>Compila il form per aggiungere una nuova bicicletta al catalogo.</p>
                         
                         <form className='aggiungiBici__form' onSubmit={handleSubmit} noValidate>
+                            {/* Messaggio di errore validazione o server */}
                             {errorMessage && (
                                 <div className='aggiungiBici__form-error'>
                                     {errorMessage}
@@ -200,7 +215,7 @@ export const AggiungiBici = () => {
                                 <label htmlFor='is_active'>Bicicletta attiva e visibile nel catalogo</label>
                             </div>
 
-                            {/* Azioni */}
+                            {/* Pulsanti di azione: annulla e salva */}
                             <div className='aggiungiBici__form-actions'>
                                 <button type='button' className='aggiungiBici__btn aggiungiBici__btn--secondary'
                                     onClick={() => navigate('/listaBici')}

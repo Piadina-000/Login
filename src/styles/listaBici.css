@@ -1,3 +1,6 @@
+/* LISTA BICICLETTE - Pagina elenco con tabella */
+
+/* Container wrapper con dimensioni specifiche */
 .body__container:has(.listaBici) {
   width: min(90vw, 1600px);
   max-width: 90vw;
@@ -5,6 +8,7 @@
   overflow-y: visible;
 }
 
+/* Wrapper principale lista */
 .listaBici {
   width: 100%;
   max-width: 100%;
@@ -26,6 +30,8 @@
   text-align: center;
 }
 
+/* HEADER - Titolo e azioni */
+/* Header con titolo e pulsante aggiungi */
 .listaBici__header {
   display: flex;
   justify-content: space-between;
@@ -35,6 +41,7 @@
   border-bottom: 2px solid #4a5861;
 }
 
+/* Titolo header */
 .listaBici__header-title {
   color: #ffffff;
   font-size: 1.5rem;
@@ -42,6 +49,7 @@
   margin: 0;
 }
 
+/* Pulsante aggiungi bicicletta */
 .listaBici__btn-add {
   padding: 10px 24px;
   background-color: #5cb3ff;
@@ -60,6 +68,8 @@
   transform: translateY(-1px);
 }
 
+/* TABELLA - Elenco biciclette */
+/* Wrapper per overflow-x */
 .listaBici__table-wrapper {
   overflow-x: auto;
   background-color: #3a4850;
@@ -67,17 +77,20 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Tabella principale */
 .listaBici__table {
   width: 100%;
   border-collapse: collapse;
   background-color: transparent;
 }
 
+/* Header tabella */
 .listaBici__table thead {
   background-color: #2a3840;
   border-bottom: 2px solid #4a5861;
 }
 
+/* Header celle */
 .listaBici__table th {
   padding: 16px 12px;
   text-align: left;
@@ -88,6 +101,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Cella dati */
 .listaBici__table td {
   padding: 16px 12px;
   color: #e0e0e0;
@@ -95,6 +109,7 @@
   border-bottom: 1px solid #4a5861;
 }
 
+/* Riga tabella - hover state */
 .listaBici__table tbody tr {
   transition: background-color 0.2s ease;
 }
@@ -107,6 +122,7 @@
   border-bottom: none;
 }
 
+/* IMMAGINE - Colonna immagine */
 /* img */
 .listaBici__img {
   width: 60px;
@@ -116,6 +132,7 @@
   border: 2px solid #4a5861;
 }
 
+/* Placeholder immagine */
 .listaBici__img-placeholder {
   width: 60px;
   height: 60px;
@@ -129,6 +146,7 @@
   border: 2px solid #4a5861;
 }
 
+/* BADGE - Stato bicicletta */
 /* Badge per stato */
 .listaBici__badge {
   display: inline-block;
@@ -160,12 +178,14 @@
   color: #0b3550;
 }
 
+/* COLONNE SPECIALI */
 /* Prezzo */
 .listaBici__price {
   font-weight: 600;
   color: #45515b;
 }
 
+/* Stock quantità */
 /* Stock */
 .listaBici__stock {
   font-weight: 600;
@@ -179,6 +199,7 @@
   color: #ff6b6b;
 }
 
+/* AZIONI - Pulsanti per riga */
 /* Azioni */
 .listaBici__actions {
   display: flex;
@@ -186,6 +207,7 @@
   justify-content: flex-start;
 }
 
+/* Pulsante azione generico */
 .listaBici__action-btn {
   padding: 8px 12px;
   border: none;
@@ -227,6 +249,7 @@
   transform: scale(1.05);
 }
 
+/* STATO VUOTO */
 /* Empty state */
 .listaBici__empty {
   text-align: center;
@@ -245,6 +268,7 @@
   margin: 0 0 24px 0;
 }
 
+/* RESPONSIVE - Adattamento a display piccoli */
 /* Responsive */
 @media (max-width: 1200px) {
   .listaBici__table th,

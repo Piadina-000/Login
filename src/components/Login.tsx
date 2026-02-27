@@ -7,7 +7,7 @@ import { authenticateLocalUser, getAuthResponse, saveAuthResponse } from '../ser
 
 /**
  * Componente Login
- * Gestisce l'autenticazione dell'utente con:
+ * Gestisce l'autenticazione dell'utente con: 
  * - Form per email/username e password
  * - Validazione dei campi (formato email e lunghezza password)
  * - Autenticazione locale tramite user.json

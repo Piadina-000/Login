@@ -9,16 +9,29 @@ import { parseBikeForm, validateBikeForm } from '../../utils/bikeForm'
 
 /**
  * Componente ModificaBici
- * Pagina per modificare i dettagli di una bicicletta.
+ * 
+ * Pagina per modificare i dettagli di una bicicletta esistente.
+ * 
+ * Funzionalità principali:
+ * - Carica i dati correnti della bicicletta tramite ID
+ * - Form pre-compilato con i valori correnti
+ * - Validazione dei campi
+ * - Costruisce un payload con solo i campi modificati
+ * - Gestione errori di caricamento e salvataggio
+ * - Reindirizza alla lista dopo il salvataggio
  */
 export const ModificaBici = () => {
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
 
+    // Stato per bloccare invii multipli durante il salvataggio
     const [isSubmitting, setIsSubmitting] = useState(false)
+    
+    // Messaggio di errore da mostrare all'utente
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-    // Carica i dati correnti della bicicletta da modificare.
+    // Query per caricare i dati correnti della bicicletta da modificare
+    // Disabilitata se non c'è un ID valido
     const { data: bicicletta, isLoading, error } = useQuery({
         queryKey: ['bicicletta', id],
         queryFn: () => {
@@ -29,10 +42,17 @@ export const ModificaBici = () => {
         retry: false
     })
 
-    // Costruisce un payload solo con i campi realmente cambiati.
+    /**
+     * Costruisce un payload contenente solo i campi effettivamente modificati
+     * 
+     * @param parsed - Dati parsati dal form
+     * @param current - Dati attuali della bicicletta dal server
+     * @returns Oggetto con solo i campi modificati
+     */
     const buildUpdatePayload = (parsed: ReturnType<typeof parseBikeForm>, current: Bicicletta): Partial<Bicicletta> => {
         const payload: Partial<Bicicletta> = {}
 
+        // Verifica e aggiunge solo i campi modificati
         if (parsed.name !== current.name) {
             payload.name = parsed.name
         }
@@ -41,15 +61,18 @@ export const ModificaBici = () => {
             payload.category = parsed.category
         }
 
+        // Gestione descrizione: confronta con stringa vuota se null
         const currentDescription = current.description ?? ''
         if (parsed.description !== currentDescription) {
             payload.description = parsed.description === '' ? undefined : parsed.description
         }
 
+        // Verifica prezzo solo se è un numero valido
         if (!Number.isNaN(parsed.price) && parsed.price !== current.price) {
             payload.price = parsed.price
         }
 
+        // Gestione costo opzionale
         const currentCost = current.cost ?? undefined
         if (parsed.cost !== currentCost) {
             payload.cost = parsed.cost
@@ -70,6 +93,14 @@ export const ModificaBici = () => {
         return payload
     }
 
+    /**
+     * Gestisce l'invio del form di modifica
+     * - Previene invii multipli
+     * - Valida i dati del form
+     * - Costruisce payload con solo i campi modificati
+     * - Invia la richiesta di aggiornamento al server
+     * - Reindirizza alla lista in caso di successo
+     */
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
@@ -78,7 +109,7 @@ export const ModificaBici = () => {
         setErrorMessage(null)
         setIsSubmitting(true)
 
-        // Validazione condivise con il form di aggiunta.
+        // Estrazione e validazione dati del form 
         const formData = new FormData(event.currentTarget)
         const parsed = parseBikeForm(formData)
         const validationError = validateBikeForm(parsed)
@@ -89,6 +120,7 @@ export const ModificaBici = () => {
             return
         }
 
+        // Costruisce il payload con solo i campi modificati
         const payload = buildUpdatePayload(parsed, bicicletta)
 
         if (Object.keys(payload).length === 0) {
@@ -97,8 +129,10 @@ export const ModificaBici = () => {
             return
         }
 
+        // Effettua la chiamata API per aggiornare la bicicletta
         try {
             await fetchBiciclettaUpdate(Number(id), payload)
+            // Successo: torna alla lista biciclette
             navigate('/listaBici')
         } catch (err: any) {
             setErrorMessage(err?.message || 'Errore durante il salvataggio.')
@@ -116,20 +150,23 @@ export const ModificaBici = () => {
                 <div className='body__container'>
                     <div className='aggiungiBici'>
                         
-                        <p>Modifica il form per modificare la bicicletta del catalogo.</p>
+                        <p>Modifica il form per aggiornare la bicicletta nel catalogo.</p>
 
                         {isLoading && (
                             <div className='aggiungiBici__form-info'>Caricamento dati bicicletta...</div>
                         )}
 
+                        {/* Messaggio di errore nel caricamento */}
                         {error && (
                             <div className='aggiungiBici__form-error'>
                                 {error instanceof Error ? error.message : 'Errore nel caricamento.'}
                             </div>
                         )}
 
+                        {/* Form di modifica - visualizzato solo quando i dati sono caricati */}
                         {bicicletta && (
                         <form className='aggiungiBici__form' onSubmit={handleSubmit} noValidate>
+                            {/* Messaggio di errore validazione o salvataggio */}
                             {errorMessage && (
                                 <div className='aggiungiBici__form-error'>
                                     {errorMessage}

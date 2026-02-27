@@ -1,9 +1,13 @@
+/* SEZIONE AGGIUNTA/MODIFICA BICICLETTA */
+
+/* Container per il form bicicletta */
 .body__container:has(.aggiungiBici) {
   max-height: none;
   overflow-y: visible;
   width: min(800px, 90%);
 }
 
+/* Wrapper principale del form */
 .aggiungiBici {
   width: 100%;
   max-width: 100%;
@@ -25,6 +29,7 @@
   text-align: center;
 }
 
+/* FORM - Campi e validazione */
 .aggiungiBici__form {
   display: flex;
   flex-direction: column;
@@ -32,12 +37,14 @@
   width: 100%;
 }
 
+/* Gruppo di form - label + input */
 .aggiungiBici__form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* Label con indicator di campo obbligatorio */
 .aggiungiBici__form label {
   color: #ffffff;
   font-size: 0.95rem;
@@ -52,6 +59,7 @@
   font-size: 1.1rem;
 }
 
+/* Campi input - text, number, url, select, textarea */
 .aggiungiBici__form input[type='text'],
 .aggiungiBici__form input[type='number'],
 .aggiungiBici__form input[type='url'],
@@ -77,11 +85,13 @@
   box-shadow: 0 0 0 3px rgba(92, 179, 255, 0.1);
 }
 
+/* Placeholder per campi input */
 .aggiungiBici__form input::placeholder,
 .aggiungiBici__form textarea::placeholder {
   color: #8a9199;
 }
 
+/* Textarea per descrizione testo lungo */
 .aggiungiBici__form textarea {
   min-height: 100px;
   resize: vertical;
@@ -92,12 +102,14 @@
   cursor: pointer;
 }
 
+/* Layout row - due colonne per prezzo e costo */
 .aggiungiBici__form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Checkbox per is_active */
 .aggiungiBici__form-checkbox {
   display: flex;
   flex-direction: row;
@@ -106,6 +118,7 @@
   padding: 12px 0;
 }
 
+/* Checkbox input */
 .aggiungiBici__form-checkbox input[type='checkbox'] {
   width: 20px;
   height: 20px;
@@ -113,11 +126,13 @@
   accent-color: #5cb3ff;
 }
 
+/* Label per checkbox */
 .aggiungiBici__form-checkbox label {
   margin: 0;
   cursor: pointer;
 }
 
+/* AZIONI - Pulsanti di submit/cancel */
 .aggiungiBici__form-actions {
   display: flex;
   gap: 12px;
@@ -127,6 +142,7 @@
   border-top: 1px solid #4a5861;
 }
 
+/* Pulsante generico */
 .aggiungiBici__btn {
   padding: 12px 32px;
   border: none;
@@ -138,6 +154,7 @@
   outline: none;
 }
 
+/* Pulsante primario (Submit) */
 .aggiungiBici__btn--primary {
   background-color: #5cb3ff;
   color: #0b3550;
@@ -154,6 +171,7 @@
   transform: translateY(0);
 }
 
+/* Pulsante secondario (Cancel) */
 .aggiungiBici__btn--secondary {
   background-color: #5a6872;
   color: #ffffff;
@@ -163,29 +181,17 @@
   background-color: #4a5861;
 }
 
+/* Messaggio di errore validazione */
 .aggiungiBici__form-error {
   color: #ff6b6b;
   font-size: 0.875rem;
   margin-top: 4px;
 }
 
+/* Testo di aiuto per il campo */
 .aggiungiBici__form-help {
   color: #a0aab3;
   font-size: 0.875rem;
   margin-top: 4px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .aggiungiBici__form-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .aggiungiBici__form-actions {
-    flex-direction: column;
-  }
-  
-  .aggiungiBici__btn {
-    width: 100%;
-  }
-}

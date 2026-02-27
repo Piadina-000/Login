@@ -7,14 +7,26 @@ import { getAuthResponse } from '../service/users'
 
 /**
  * Componente Amministrazione (Dashboard)
- * Pagina che mostra i dati dell'utente autenticato.
+ * 
+ * Pagina principale dell'area amministrativa che mostra i dati dell'utente autenticato.
+ * 
+ * Funzionalità principali:
+ * - Recupera i dati di autenticazione dal localStorage
+ * - Visualizza le informazioni complete del profilo utente
+ * - Verifica l'autenticazione e reindirizza al login se necessario
+ * - Mostra un messaggio di benvenuto
  */
 export const Amministrazione = () => {
     const navigate = useNavigate()
+    
     // Inizializza lo stato con i dati di autenticazione salvati nel localStorage
     const [auth, setAuth] = useState<LoginResponse | null>(() => getAuthResponse())
 
-    // Verifica all'avvio del componente se l'utente è autenticato
+    /**
+     * Verifica all'avvio del componente se l'utente è autenticato
+     * Se non ci sono dati salvati, reindirizza alla pagina di login
+     * Altrimenti, carica i dati dell'utente nello stato
+     */
     useEffect(() => {
         const saved = getAuthResponse()
         if (!saved) {
@@ -45,6 +57,7 @@ export const Amministrazione = () => {
             <div className='body'>
                 <div className='body__container'>
                     <h2>Benvenuto nell'area di amministrazione</h2>
+                    {/* Visualizzazione informazioni utente se presenti */}
                     {auth?.user && (
                         <div className='user-info'>
                             {auth.user.nome && <p><strong>Nome:</strong> {auth.user.nome}</p>}

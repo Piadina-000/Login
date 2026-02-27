@@ -1,5 +1,8 @@
 
 
+/* DASHBOARD - Pagina amministrazione */
+
+/* Contenitore informazioni utente */
 .user-info {
   width: 100%;
   display: flex;
@@ -7,6 +10,7 @@
   gap: 8px;
 }
 
+/* Singola riga di informazione utente */
 .user-info p {
   margin: 4px 0;
   padding: 8px 12px;

@@ -1,3 +1,5 @@
+/* SIDEBAR - Menu laterale navigazione */
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -16,6 +18,7 @@
   z-index: 100;
 }
 
+/* Sidebar collassata */
 .sidebar--collapsed {
   width: 85px;
   background: transparent;
@@ -23,6 +26,7 @@
   margin-top: 25px;
 }
 
+/* Backdrop scuro */
 .sidebar__backdrop {
   position: fixed;
   inset: 0;
@@ -53,7 +57,7 @@
   display: none;
 }
 
-/* header */
+/* Header sidebar */
 .sidebar__header {
   display: flex;
   align-items: center;
@@ -63,6 +67,7 @@
   background: rgba(0, 0, 0, 0.228);
 }
 
+/* Logo testo */
 .sidebar__logo-text {
   font-size: 1.5rem;
   white-space: nowrap;
@@ -75,6 +80,7 @@
   display: none;
 }
 
+/* Pulsante toggle */
 .sidebar__toggle {
   width: 44px;
   height: 44px;
@@ -107,6 +113,7 @@
   gap: 0.5rem;
 }
 
+/* Sezione menu */
 .sidebar__section {
   display: flex;
   flex-direction: column;
@@ -139,10 +146,12 @@
   font-weight: 700;
 }
 
+/* Item con sottomenu */
 .sidebar__item--parent {
   position: relative;
 }
 
+/* Icona item */
 .sidebar__item-icon {
   font-size: 1.25rem;
   flex-shrink: 0;
@@ -151,11 +160,13 @@
   justify-content: center;
 }
 
+/* Label item */
 .sidebar__item-label {
   flex: 1;
   text-align: left;
 }
 
+/* Freccia per sottomenu */
 .sidebar__item-arrow {
   font-size: 0.7rem;
   margin-left: auto;
@@ -172,6 +183,7 @@
   display: none;
 }
 
+/* SOTTOMENU - Voci sottomenu */
 /* submenu */
 .sidebar__submenu {
   display: flex;
@@ -191,7 +203,7 @@
   display: none;
 }
 
-/* Subitem */
+/* Subitem menu */
 .sidebar__subitem {
   display: flex;
   align-items: center;
@@ -218,16 +230,19 @@
   font-weight: 700;
 }
 
+/* Icona subitem */
 .sidebar__subitem-icon {
   font-size: 1rem;
   flex-shrink: 0;
 }
 
+/* Label subitem */
 .sidebar__subitem-label {
   flex: 1;
   text-align: left;
 }
 
+/* FOOTER - Profilo e logout */
 /* footer */
 .sidebar__footer {
   display: flex;
@@ -237,6 +252,7 @@
   background: rgba(0, 0, 0, 0.228);
 }
 
+/* Profilo utente */
 /* Profilo */
 .sidebar__profile {
   display: flex;
@@ -252,6 +268,7 @@
   display: none;
 }
 
+/* Avatar utente */
 .sidebar__profile-avatar {
   display: flex;
   align-items: center;
@@ -267,11 +284,13 @@
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
 }
 
+/* Info profilo */
 .sidebar__profile-info {
   flex: 1;
   min-width: 0;
 }
 
+/* Nome utente */
 .sidebar__profile-name {
   margin: 0;
   font-size: 0.9rem;
@@ -282,6 +301,7 @@
   white-space: nowrap;
 }
 
+/* Ruolo utente */
 .sidebar__profile-role {
   margin: 0.25rem 0 0 0;
   font-size: 0.8rem;
@@ -291,7 +311,7 @@
   white-space: nowrap;
 }
 
-/* Logout Button */
+/* Pulsante logout */
 .sidebar__logout {
   display: flex;
   align-items: center;
@@ -320,6 +340,7 @@
   transform: translateY(0);
 }
 
+/* Icona logout */
 .sidebar__logout-icon {
   font-size: 1.25rem;
   flex-shrink: 0;
