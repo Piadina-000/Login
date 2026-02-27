@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchBiciclettaById } from '../../service/api'
+import { useSoftDeleteBicicletta } from '../../hooks/useSoftDeleteBicicletta'
+import { useHardDeleteBicicletta } from '../../hooks/useDeleteBicicletta'
+import { useRestoreBicicletta } from '../../hooks/useRestoreBicicletta'
+import type { ApiResponse, Bicicletta } from '../../types'
 import '../../styles/dettaglioBici.css'
 import '../../styles/afterLogin.css'
 
@@ -13,7 +17,24 @@ import '../../styles/afterLogin.css'
 export const DettaglioBici = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [notFound, setNotFound] = useState(false)
+
+  const updateListCache = (bikeId: number, isActive: boolean) => {
+    queryClient.setQueriesData<ApiResponse<Bicicletta>>(
+      { queryKey: ['biciclette'] },
+      (oldData) => {
+        if (!oldData?.data) return oldData
+
+        return {
+          ...oldData,
+          data: oldData.data.map((item) =>
+            item.id === bikeId ? { ...item, is_active: isActive } : item
+          )
+        }
+      }
+    )
+  }
 
   const { data: bicicletta, isLoading, error } = useQuery({
     queryKey: ['bicicletta', id],
@@ -34,7 +55,36 @@ export const DettaglioBici = () => {
       }
     }
   }, [error])
-  
+
+  const { deleteError, isDeleting, handleDelete } = useSoftDeleteBicicletta({
+    onSuccess: () => {
+      const bikeId = Number(id)
+      updateListCache(bikeId, false)
+      queryClient.invalidateQueries({ queryKey: ['bicicletta', id] })
+      queryClient.invalidateQueries({ queryKey: ['biciclette'] })
+    }
+  })
+
+  const {
+    deleteError: hardDeleteError,
+    isDeleting: isHardDeleting,
+    handleDelete: handleHardDelete
+  } = useHardDeleteBicicletta({
+    onSuccess: () => navigate('/listaBici')
+  })
+
+  const {
+    restoreError,
+    isRestoring,
+    handleRestore
+  } = useRestoreBicicletta({
+    onSuccess: () => {
+      const bikeId = Number(id)
+      updateListCache(bikeId, true)
+      queryClient.invalidateQueries({ queryKey: ['bicicletta', id] })
+      queryClient.invalidateQueries({ queryKey: ['biciclette'] })
+    }
+  })
 
   return (
     <div className='pagina'>
@@ -49,14 +99,14 @@ export const DettaglioBici = () => {
             ← Indietro
           </button>
 
-          {/* Loading State */}
+          {/* Loading */}
           {isLoading && (
             <div className='dettagli__loading'>
               <p>Caricamento dettagli...</p>
             </div>
           )}
 
-          {/* 404 Not Found State */}
+          {/* 404 Not Found */}
           {notFound && (
             <div className='dettagli__error dettagli__error--404'>
               <h2>Bicicletta Non Trovata</h2>
@@ -64,7 +114,7 @@ export const DettaglioBici = () => {
             </div>
           )}
 
-          {/* Generic Error State */}
+          {/* Generic Error */}
           {error && !notFound && (
             <div className='dettagli__error'>
               <h2>Errore nel Caricamento</h2>
@@ -75,11 +125,56 @@ export const DettaglioBici = () => {
             </div>
           )}
 
-          {/* Details Display */}
-          {bicicletta && !isLoading && !error && (
+          {deleteError && (
+            <div className='dettagli__error'>
+              <h2>Errore Eliminazione</h2>
+              <p>{deleteError}</p>
+            </div>
+          )}
+
+          {hardDeleteError && (
+            <div className='dettagli__error'>
+              <h2>Errore Eliminazione Definitiva</h2>
+              <p>{hardDeleteError}</p>
+            </div>
+          )}
+
+          {restoreError && (
+            <div className='dettagli__error'>
+              <h2>Errore Ripristino</h2>
+              <p>{restoreError}</p>
+            </div>
+          )}
+
+          {/* Bicicletta non visibile */}
+          {bicicletta && !isLoading && !error && !bicicletta.is_active && (
+            <div className='dettagli__error dettagli__error--404'>
+              <h2>Bicicletta Non Visibile</h2>
+              <p>Questa bicicletta è stata rimossa dal catalogo e non è più accessibile.</p>
+              <div className='dettagli__actions'>
+                <button 
+                  className='dettagli__btn dettagli__btn--restore'
+                  disabled={isRestoring}
+                  onClick={() => handleRestore(Number(id))}
+                >
+                  {isRestoring ? 'Ripristino...' : 'Ripristina'}
+                </button>
+                <button 
+                  className='dettagli__btn dettagli__btn--delete'
+                  disabled={isHardDeleting}
+                  onClick={() => handleHardDelete(Number(id))}
+                >
+                  {isHardDeleting ? 'Eliminazione definitiva...' : 'Elimina definitivamente'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Details */}
+          {bicicletta && !isLoading && !error && bicicletta.is_active && (
             <div className='dettagli__container'>
               <div className='dettagli__row'>
-                {/* Image */}
+                {/* Img */}
                 <div className='dettagli__col dettagli__col--image'>
                   {bicicletta.image_url ? (
                     <img
@@ -160,13 +255,17 @@ export const DettaglioBici = () => {
                     </button>
                     <button 
                       className='dettagli__btn dettagli__btn--delete'
-                      onClick={() => {
-                        if (confirm('Sei sicuro di voler eliminare questa bicicletta?')) {
-                          alert('Eliminazione non ancora implementata')
-                        }
-                      }}
+                      disabled={isDeleting || isHardDeleting || !bicicletta.is_active}
+                      onClick={() => handleDelete(Number(id), bicicletta.is_active)}
                     >
-                      Elimina
+                      {isDeleting ? 'Eliminazione...' : 'Elimina'}
+                    </button>
+                    <button 
+                      className='dettagli__btn dettagli__btn--delete'
+                      disabled={isDeleting || isHardDeleting}
+                      onClick={() => handleHardDelete(Number(id))}
+                    >
+                      {isHardDeleting ? 'Eliminazione definitiva...' : 'Elimina definitivamente'}
                     </button>
                   </div>
                 </div>

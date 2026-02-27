@@ -187,6 +187,8 @@ export const AggiungiBici = () => {
                                 <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
                             </div>
 
+                            {/* preview img */}
+
                             {/* Is Active - Boolean */}
                             <div className='aggiungiBici__form-checkbox'>
                                 <input 

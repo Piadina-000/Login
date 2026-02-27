@@ -17,15 +17,5 @@
     "usrname": "carmen@asistar.it",
     "password": "pavesini123",
     "ruolo": "Supervisore"
-},
-
-{
-    "nome": "Alessio",
-    "cognome": "Innocenti",
-    "indirizzo":"via delle peonie",
-    "email": "alessio@asistar.it",
-    "usrname": "alessio@asistar.it",
-    "password": "peonia123",
-    "ruolo": "Operatore"
 }
 ]

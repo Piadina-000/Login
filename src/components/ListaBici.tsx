@@ -5,6 +5,7 @@ import '../styles/listaBici.css'
 import '../styles/afterLogin.css'
 import { fetchBiciclette } from '../service/api.ts'
 import type { Bicicletta } from '../types'
+import { useSoftDeleteBicicletta } from '../hooks/useSoftDeleteBicicletta'
 
 /**
  * Componente ListaBici
@@ -17,6 +18,14 @@ export const ListaBici = () => {
     const [hasMore, setHasMore] = useState(true)
     const pageSize = 20
     const observerTarget = useRef<HTMLDivElement>(null)
+
+    const { deleteError, deletingId, handleDelete } = useSoftDeleteBicicletta({
+        onSuccess: (id) => {
+            setAllBiciclette(prev => prev.map(item => (
+                item.id === id ? { ...item, is_active: false } : item
+            )))
+        }
+    })
 
     const { data, isLoading } = useQuery({
         queryKey: ['biciclette', page],
@@ -45,6 +54,10 @@ export const ListaBici = () => {
 
         return () => observer.disconnect()
     }, [hasMore, isLoading])
+
+    const handleDeleteClick = (bike: Bicicletta) => {
+        handleDelete(bike.id, bike.is_active)
+    }
     
     return (
         <div className='pagina'>
@@ -55,6 +68,10 @@ export const ListaBici = () => {
                 <div className='body__container'>
                     <div className='listaBici'>
                         {allBiciclette.length === 0 && !isLoading && <p>Gestisci tutte le biciclette disponibili nel sistema.</p>}
+
+                        {deleteError && (
+                            <p style={{ color: '#b42318', marginTop: '12px' }}>{deleteError}</p>
+                        )}
                         
                         <div className='listaBici__header'>
                             <h2 className='listaBici__header-title'>Elenco Biciclette</h2>
@@ -77,64 +94,86 @@ export const ListaBici = () => {
                                 <tbody>
                                     {allBiciclette.map((bici) => (
                                         <tr key={bici.id}>
-                                            <td>
-                                                {bici.image_url ? (
-                                                    <img 
-                                                        src={bici.image_url} 
-                                                        alt={bici.name} 
-                                                        className='listaBici__img'
-                                                    />
-                                                ) : (
-                                                    <div className='listaBici__img-placeholder'>No img</div>
-                                                )}
-                                            </td>
-                                            <td>{bici.name}</td>
-                                            <td>{bici.category}</td>
-                                            <td className='listaBici__price'>€ {bici.price.toFixed(2)}</td>
-                                            <td>
-                                                {bici.stock_quantity === 0 ? (
-                                                    <span className='listaBici__badge listaBici__badge--esaurito'>
-                                                        Esaurito
-                                                    </span>
-                                                ) : (
-                                                    <span className={`listaBici__stock ${
-                                                        bici.stock_quantity < 5 ? 'listaBici__stock--low' : ''
-                                                    }`}>
-                                                        {bici.stock_quantity}
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td>
-                                                <span className={`listaBici__badge ${
-                                                    bici.is_active ? 'listaBici__badge--active' : 'listaBici__badge--inactive'
-                                                }`}>
-                                                    {bici.is_active ? 'Attiva' : 'Non visibile'}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div className='listaBici__actions'>
-                                                    <button 
-                                                        className='listaBici__action-btn listaBici__action-btn--view'
-                                                        onClick={() => navigate(`/dettagli/${bici.id}`)}
-                                                    >
-                                                        Visualizza
-                                                    </button>
-                                                    <button className='listaBici__action-btn listaBici__action-btn--edit'
-                                                        onClick={() => navigate(`/modificaBici/${bici.id}`)}
-                                                    >
-                                                        Modifica
-                                                    </button>
-                                                    <button className='listaBici__action-btn listaBici__action-btn--delete'
-                                                        onClick={() => {
-                                                            if (confirm('Sei sicuro di voler eliminare questa bicicletta?')) {
-                                                            alert('Eliminazione non ancora implementata')
-                                                            }
-                                                        }}
-                                                    >
-                                                        Elimina
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            {bici.is_active ? (
+                                                <>
+                                                    <td>
+                                                        {bici.image_url ? (
+                                                            <img 
+                                                                src={bici.image_url} 
+                                                                alt={bici.name} 
+                                                                className='listaBici__img'
+                                                            />
+                                                        ) : (
+                                                            <div className='listaBici__img-placeholder'>No img</div>
+                                                        )}
+                                                    </td>
+                                                    <td>{bici.name}</td>
+                                                    <td>{bici.category}</td>
+                                                    <td className='listaBici__price'>€ {bici.price.toFixed(2)}</td>
+                                                    <td>
+                                                        {bici.stock_quantity === 0 ? (
+                                                            <span className='listaBici__badge listaBici__badge--esaurito'>
+                                                                Esaurito
+                                                            </span>
+                                                        ) : (
+                                                            <span className={`listaBici__stock ${
+                                                                bici.stock_quantity < 5 ? 'listaBici__stock--low' : ''
+                                                            }`}>
+                                                                {bici.stock_quantity}
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        <span className='listaBici__badge listaBici__badge--active'>
+                                                            Attiva
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div className='listaBici__actions'>
+                                                            <button 
+                                                                className='listaBici__action-btn listaBici__action-btn--view'
+                                                                onClick={() => navigate(`/dettagli/${bici.id}`)}
+                                                            >
+                                                                Visualizza
+                                                            </button>
+                                                            <button className='listaBici__action-btn listaBici__action-btn--edit'
+                                                                onClick={() => navigate(`/modificaBici/${bici.id}`)}
+                                                            >
+                                                                Modifica
+                                                            </button>
+                                                            <button className='listaBici__action-btn listaBici__action-btn--delete'
+                                                                disabled={deletingId === bici.id}
+                                                                onClick={() => handleDeleteClick(bici)}
+                                                            >
+                                                                {deletingId === bici.id ? 'Eliminazione...' : 'Elimina'}
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <td>
+                                                        <div className='listaBici__img-placeholder'>No img</div>
+                                                    </td>
+                                                    <td>{bici.name}</td>
+                                                    <td colSpan={3}></td>
+                                                    <td>
+                                                        <span className='listaBici__badge listaBici__badge--inactive'>
+                                                            Non visibile
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div className='listaBici__actions'>
+                                                            <button 
+                                                                className='listaBici__action-btn listaBici__action-btn--view'
+                                                                onClick={() => navigate(`/dettagli/${bici.id}`)}
+                                                            >
+                                                                Visualizza
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            )}
                                         </tr>
                                     ))}
                                 </tbody>

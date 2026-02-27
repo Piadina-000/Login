@@ -138,5 +138,52 @@ export const fetchBiciclettaUpdate = async (id: number, updatedData: Partial<Bic
   }
 }
 
+/**
+ * Soft delete: rende la bicicletta non visibile nel catalogo.
+ */
+export const softDeleteBicicletta = async (id: number): Promise<Bicicletta> => {
+  try {
+    return await fetchBiciclettaUpdate(id, { is_active: false })
+  } catch (err: any) {
+    console.error('softDeleteBicicletta error', err)
+    throw err
+  }
+}
+
+/**
+ * Ripristina una bicicletta eliminata (soft delete): la rende visibile di nuovo.
+ */
+export const restoreBicicletta = async (id: number): Promise<Bicicletta> => {
+  try {
+    return await fetchBiciclettaUpdate(id, { is_active: true })
+  } catch (err: any) {
+    console.error('restoreBicicletta error', err)
+    throw err
+  }
+}
+
+
+/**
+ * Elimina definitivamente la bicicletta dal catalogo.
+ */
+export const fetchBiciclettaDelete = async (id: number): Promise<void> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/${id}`, {
+      method: 'DELETE'
+    })
+
+    if (response.status === 404) {
+      throw new Error('Bicicletta non trovata')
+    }
+
+    if (!response.ok) {
+      throw new Error(`Errore server: ${response.status}`)
+    }
+  } catch (err: any) {
+    console.error('fetchBiciclettaDelete error', err)
+    throw err
+  }
+}
+
 
 
