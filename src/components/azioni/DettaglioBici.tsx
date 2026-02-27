@@ -292,7 +292,7 @@ export const DettaglioBici = () => {
                       disabled={isDeleting || isHardDeleting || !bicicletta.is_active}
                       onClick={() => handleDelete(Number(id), bicicletta.is_active)}
                     >
-                      {isDeleting ? 'Eliminazione...' : 'Elimina'}
+                      {isDeleting ? 'Sospensione...' : 'Sospendi'}
                     </button>
                     <button 
                       className='dettagli__btn dettagli__btn--delete'

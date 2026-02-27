@@ -177,14 +177,14 @@ export const ListaBici = () => {
                                                             </button>
                                                             <button className='listaBici__action-btn listaBici__action-btn--edit'
                                                                 onClick={() => navigate(`/modificaBici/${bici.id}`)}
-                                                            >
-                                                                Modifica
-                                                            </button>
-                                                            <button className='listaBici__action-btn listaBici__action-btn--delete'
-                                                                disabled={deletingId === bici.id}
-                                                                onClick={() => handleDeleteClick(bici)}
-                                                            >
-                                                                {deletingId === bici.id ? 'Eliminazione...' : 'Elimina'}
+                                                        >
+                                                            Modifica
+                                                        </button>
+                                                        <button className='listaBici__action-btn listaBici__action-btn--delete'
+                                                            disabled={deletingId === bici.id}
+                                                            onClick={() => handleDeleteClick(bici)}
+                                                        >
+                                                            {deletingId === bici.id ? 'Sospensione...' : 'Sospendi'}
                                                             </button>
                                                         </div>
                                                     </td>
