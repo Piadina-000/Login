@@ -49,7 +49,7 @@ export const parseBikeForm = (formData: FormData): ParsedBikeForm => {
     const cost = costValue === '' ? undefined : Number(costValue)
     const stockQuantity = stockValue === '' ? Number.NaN : Number(stockValue)
 
-    /**
+     /**
      * Restituisce un oggetto con sia i valori string che i valori convertiti
      * Questo permette di:
      * - Validare basandosi sui valori convertiti
