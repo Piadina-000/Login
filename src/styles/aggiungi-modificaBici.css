@@ -79,7 +79,7 @@
 .aggiungiBici__form input[type='number']:focus,
 .aggiungiBici__form input[type='url']:focus,
 .aggiungiBici__form select:focus,
-.aggiungiBici__form textarea:focus {
+.aggiungiBici__form textarea:focus{
   border-color: #5cb3ff;
   background-color: #424e57;
   box-shadow: 0 0 0 3px rgba(92, 179, 255, 0.1);
@@ -193,5 +193,68 @@
   color: #a0aab3;
   font-size: 0.875rem;
   margin-top: 4px;
+}
+
+/* SEZIONE IMAGE URL */
+
+/* Container della preview immagine */
+.aggiungiBici__form-group:has(#image_url) {
+  position: relative;
+}
+
+/* Input field per image URL */
+#image_url {
+  border: 2px solid #4a5861;
+  position: relative;
+  width: 400px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+
+/* Wrapper per layout input + preview */
+.aggiungiBici__image-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  padding: 16px;
+}
+
+
+/* Input column */
+.aggiungiBici__image-input-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aggiungiBici__image-input-column input {
+  width: 100%;
+}
+
+/* Preview column */
+.aggiungiBici__image-preview-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  
+}
+
+/* Preview image */
+.aggiungiBici__image-preview {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid #4a5861;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 8px;
 }
 

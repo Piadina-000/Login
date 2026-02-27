@@ -1,6 +1,6 @@
 import '../../styles/aggiungi-modificaBici.css'
 import '../../styles/afterLogin.css'
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { fetchBiciclettaById, fetchBiciclettaUpdate } from '../../service/api'
@@ -30,6 +30,9 @@ export const ModificaBici = () => {
     // Messaggio di errore da mostrare all'utente
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+    // Preview URL dell'immagine
+    const [imageUrl, setImageUrl] = useState<string>('')
+
     // Query per caricare i dati correnti della bicicletta da modificare
     // Disabilitata se non c'è un ID valido
     const { data: bicicletta, isLoading, error } = useQuery({
@@ -41,6 +44,13 @@ export const ModificaBici = () => {
         enabled: !!id,
         retry: false
     })
+
+    // Inizializza l'URL dell'immagine quando la bicicletta viene caricata
+    useEffect(() => {
+        if (bicicletta?.image_url) {
+            setImageUrl(bicicletta.image_url)
+        }
+    }, [bicicletta])
 
     /**
      * Costruisce un payload contenente solo i campi effettivamente modificati
@@ -268,14 +278,31 @@ export const ModificaBici = () => {
                             {/* Image URL - Opzionale */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='image_url'>URL Immagine</label>
-                                <input 
-                                    type='url' 
-                                    id='image_url' 
-                                    name='image_url' 
-                                    placeholder='https://esempio.com/immagine.jpg'
-                                    defaultValue={bicicletta.image_url}
-                                />
-                                <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
+                                <div className='aggiungiBici__image-wrapper'>
+                                    <div className='aggiungiBici__image-input-column'>
+                                        <input 
+                                            type='url' 
+                                            id='image_url' 
+                                            name='image_url' 
+                                            placeholder='https://esempio.com/immagine.jpg'
+                                            defaultValue={bicicletta.image_url}
+                                            onChange={(e) => setImageUrl(e.target.value)}
+                                        />
+                                        <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
+                                    </div>
+                                    {imageUrl && (
+                                        <div className='aggiungiBici__image-preview-column'>
+                                            <img 
+                                                src={imageUrl} 
+                                                alt='Preview' 
+                                                className='aggiungiBici__image-preview'
+                                                onError={(e) => {
+                                                    (e.target as HTMLImageElement).style.display = 'none'
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Is Active - Boolean */}

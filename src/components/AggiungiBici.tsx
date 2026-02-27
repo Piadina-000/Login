@@ -27,6 +27,9 @@ export const AggiungiBici = () => {
     // Messaggi di errore da mostrare all'utente (validazione o errori server)
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+    // Preview URL dell'immagine
+    const [imageUrl, setImageUrl] = useState<string>('')
+
     /**
      * Gestisce l'invio del form di aggiunta bicicletta
      * 
@@ -193,16 +196,31 @@ export const AggiungiBici = () => {
                             {/* Image URL - Opzionale */}
                             <div className='aggiungiBici__form-group'>
                                 <label htmlFor='image_url'>URL Immagine</label>
-                                <input 
-                                    type='url' 
-                                    id='image_url' 
-                                    name='image_url' 
-                                    placeholder='https://esempio.com/immagine.jpg'
-                                />
-                                <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
+                                <div className='aggiungiBici__image-wrapper'>
+                                    <div className='aggiungiBici__image-input-column'>
+                                        <input 
+                                            type='url' 
+                                            id='image_url' 
+                                            name='image_url' 
+                                            placeholder='https://esempio.com/immagine.jpg'
+                                            onChange={(e) => setImageUrl(e.target.value)}
+                                        />
+                                        <span className='aggiungiBici__form-help'>Link all'immagine della bicicletta</span>
+                                    </div>
+                                    {imageUrl && (
+                                        <div className='aggiungiBici__image-preview-column'>
+                                            <img 
+                                                src={imageUrl} 
+                                                alt='Preview' 
+                                                className='aggiungiBici__image-preview'
+                                                onError={(e) => {
+                                                    (e.target as HTMLImageElement).style.display = 'none'
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-
-                            {/* preview img */}
 
                             {/* Is Active - Boolean */}
                             <div className='aggiungiBici__form-checkbox'>
